@@ -1,0 +1,22 @@
+language: bash
+
+# for secret experimental features ;)
+sudo: 9000
+
+env:
+  - VERSION=8
+  - VERSION=7
+
+install:
+  - git clone https://github.com/docker-library/official-images.git ~/official-images
+
+before_script:
+  - env | sort
+  - cd "$VERSION"
+  - image="drupal:$VERSION"
+
+script:
+  - docker build -t "$image" .
+  - ~/official-images/test/run.sh "$image"
+
+# vim:set et ts=2 sw=2:
