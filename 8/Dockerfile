@@ -20,7 +20,7 @@ RUN { \
 		echo 'opcache.enable_cli=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
-WORKDIR /var/www/html
+VOLUME /var/www/html
 
 # https://www.drupal.org/node/3060/release
 ENV DRUPAL_VERSION 8.0.0-rc4
@@ -31,3 +31,11 @@ RUN curl -fSL "http://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar
 	&& tar -xz --strip-components=1 -f drupal.tar.gz \
 	&& rm drupal.tar.gz \
 	&& chown -R www-data:www-data sites
+
+
+COPY docker-entrypoint.sh /entrypoint.sh
+
+# grr, ENTRYPOINT resets CMD now
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["apache2-foreground"]
+
