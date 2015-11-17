@@ -31,3 +31,11 @@ RUN curl -fSL "http://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar
 	&& tar -xz --strip-components=1 -f drupal.tar.gz \
 	&& rm drupal.tar.gz \
 	&& chown -R www-data:www-data sites
+
+
+COPY docker-entrypoint.sh /entrypoint.sh
+
+# grr, ENTRYPOINT resets CMD now
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["apache2-foreground"]
+
