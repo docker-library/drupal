@@ -23,8 +23,8 @@ RUN { \
 WORKDIR /var/www/html
 
 # https://www.drupal.org/node/3060/release
-ENV DRUPAL_VERSION 8.0.0
-ENV DRUPAL_MD5 92ce9a54fa926b58032a4e39b0f9a9f1
+ENV DRUPAL_VERSION 8.0.1
+ENV DRUPAL_MD5 423cc4d28da066d099986ac0844f6abb
 
 RUN curl -fSL "http://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o drupal.tar.gz \
 	&& echo "${DRUPAL_MD5} *drupal.tar.gz" | md5sum -c - \
