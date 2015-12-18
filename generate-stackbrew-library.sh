@@ -8,7 +8,7 @@ aliases=(
 
 cd "$(dirname "$(readlink -f "$BASH_SOURCE")")"
 
-versions=( */ )
+versions=( */*/ )
 versions=( "${versions[@]%/}" )
 url='git://github.com/docker-library/drupal'
 
