@@ -2,16 +2,18 @@ language: bash
 services: docker
 
 env:
-  - VERSION=8
-  - VERSION=7
+  - VERSION=8 VARIANT=apache
+  - VERSION=8 VARIANT=fpm
+  - VERSION=7 VARIANT=apache
+  - VERSION=7 VARIANT=fpm
 
 install:
   - git clone https://github.com/docker-library/official-images.git ~/official-images
 
 before_script:
   - env | sort
-  - cd "$VERSION"
-  - image="drupal:$VERSION"
+  - cd "$VERSION/$VARIANT"
+  - image="drupal:$VERSION-$VARIANT"
 
 script:
   - docker build -t "$image" .
