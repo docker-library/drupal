@@ -21,6 +21,8 @@ RUN { \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
 WORKDIR /var/www/html
+# Changes folder owner to www-data so Drupal can write to it
+RUN chown -R www-data:www-data /var/www/html
 
 # https://www.drupal.org/node/3060/release
 ENV DRUPAL_VERSION 8.0.3
