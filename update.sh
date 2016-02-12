@@ -21,10 +21,12 @@ for version in "${versions[@]}"; do
 		sed -ri '
 			s/^(ENV DRUPAL_VERSION) .*/\1 '"$fullVersion"'/;
 			s/^(ENV DRUPAL_MD5) .*/\1 '"$md5"'/;
-		' "$version/Dockerfile"
+		' "$version"/*/Dockerfile
 	)
 	
-	travisEnv='\n  - VERSION='"$version$travisEnv"
+	for variant in fpm apache; do
+		travisEnv='\n  - VERSION='"$version"' VARIANT='"$variant$travisEnv"
+	done
 done
 
 travis="$(awk -v 'RS=\n\n' '$1 == "env:" { $0 = "env:'"$travisEnv"'" } { printf "%s%s", $0, RS }' .travis.yml)"
