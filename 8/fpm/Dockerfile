@@ -18,14 +18,23 @@ RUN { \
 		echo 'opcache.enable_cli=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
-WORKDIR /var/www/html
+
+VOLUME /var/www/html
 
 # https://www.drupal.org/node/3060/release
 ENV DRUPAL_VERSION 8.0.3
 ENV DRUPAL_MD5 7d5f5278a870b8f4a29cda4fe915d619
 
-RUN curl -fSL "http://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o drupal.tar.gz \
-	&& echo "${DRUPAL_MD5} *drupal.tar.gz" | md5sum -c - \
-	&& tar -xz --strip-components=1 -f drupal.tar.gz \
-	&& rm drupal.tar.gz \
-	&& chown -R www-data:www-data sites
+
+
+RUN curl -fSL "http://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o /usr/src/drupal-${DRUPAL_VERSION}.tar.gz
+
+#Move in the entrypoint script
+COPY drupal_entrypoint.sh /drupal_entrypoint.sh
+
+#Define data volumes
+#VOLUME ["/var/www/html/modules", "/var/www/html/profiles", "/var/www/html/themes", "/var/www/html/sites"]
+
+#Set the entrypoint
+ENTRYPOINT ["/drupal_entrypoint.sh"]
+CMD ["php-fpm"]
