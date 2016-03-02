@@ -138,7 +138,6 @@ fi
 #Check if tables exist, and if not install drupal schema
   #Need some php here to complete install
 
-echo "Attempting:"
-echo "$@"
+echo "Attempting: $@"
 
 exec "$@"
