@@ -164,6 +164,16 @@ if ! [ -e /var/www/html/sites/default/settings.php ]; then
 
   #Finish writing settings.php
   echo ");" >> "$SETTINGS"
+  HASH_SALT=$(/usr/bin/php << EOF
+    <?php
+      date_default_timezone_set('UTC');
+      \$date = str_replace(' ','',date("D M d, Y G:i"));
+      \$salt = hash('sha512',"\$date");
+      echo \$salt; ?>
+EOF
+)
+  echo "\$settings['hash_salt'] = '$(echo $HASH_SALT)';" >> "$SETTINGS"
+
 fi
 
 #Check if tables exist, and if not install drupal schema
