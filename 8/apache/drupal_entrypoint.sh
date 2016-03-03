@@ -164,7 +164,7 @@ if ! [ -e /var/www/html/sites/default/settings.php ]; then
 
   #Finish writing settings.php
   echo ");" >> "$SETTINGS"
-  HASH_SALT=$(/usr/bin/php << EOF
+  HASH_SALT=$(/usr/local/bin/php << EOF
     <?php
       date_default_timezone_set('UTC');
       \$date = str_replace(' ','',date("D M d, Y G:i"));
