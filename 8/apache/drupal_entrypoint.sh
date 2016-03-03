@@ -28,8 +28,10 @@ fi
 
 #Check for settings.php
 if ! [ -e /var/www/html/sites/default/settings.php ]; then
+  echo '/var/www/html/sites/default/settings.php not found'
+  echo '  Attempting to build settings.php from environmental variables provided'
+  
   #Start collecting parameters to build settings.php
-
   #Check DB Type
   if [ -z "$DRUPAL_DB_TYPE" ]; then
     DRUPAL_DB_TYPE='mysql'
