@@ -77,17 +77,40 @@ if ! [ -e /var/www/html/sites/default/settings.php ]; then
 
   #Check Postgres Params
   if [ "$DRUPAL_DB_TYPE" = 'postgres' ]; then
-    echo Postgres
-    #Check Postgres port
+      #Check Postgres port
+    if [ -z "$PG_DB_PORT" ]; then
+      PG_DB_PORT=5432
+      echo 'No Postgres database port was provided'
+      echo '  Setting default Postgres database port to 5432'
+    fi
 
     #Check Postgres database name
+    if [ -z "$PG_DB_NAME" ]; then
+      PG_DB_NAME="postgres"
+      echo 'No Postgres database name was provided'
+      echo "  Setting default Postgres database name to 'postgres'"
+    fi
 
     #Check Postgres database user
+    if [ -z "$PG_DB_USER" ]; then
+      PG_DB_USER="postgres"
+      echo 'No Postgres database user was provided'
+      echo "  Setting default Postgres database user to 'postgres'"
+    fi
 
     #Check Postgres database host
+    if [ -z "$PG_DB_HOST" ]; then
+      echo >&2 'error: No Postgres database host was provided'
+      echo >&2 '  Provide an environment variable for PG_DB_HOST to connect to your database'
+      exit 1
+    fi
 
     #Check Postgres Password
-
+    if [ -z "$PG_DB_PASS" ]; then
+      echo >&2 'error: No Postgres database password was provided'
+      echo >&2 '  Provide an environment variable for PG_DB_PASS to connect to your database'
+      exit 1
+    fi
   fi
 
   #Check SQLite Params
@@ -120,7 +143,13 @@ if ! [ -e /var/www/html/sites/default/settings.php ]; then
       echo "  'driver' => 'mysql'," >> "$SETTINGS"
       ;;
     "postgres")
-      echo Postgres
+      echo "  'database' => '"$PG_DB_NAME"'," >> "$SETTINGS"
+      echo "  'username' => '"$PG_DB_USER"'," >> "$SETTINGS"
+      echo "  'password' => '"$PG_DB_PASS"'," >> "$SETTINGS"
+      echo "  'prefix' => '"$DRUPAL_TBL_PREFIX"'," >> "$SETTINGS"
+      echo "  'host' => '"$PG_DB_HOST"'," >> "$SETTINGS"
+      echo "  'namespace' => 'Drupal\\\\Core\\\\Database\\\\Driver\\\\pgsql'," >> "$SETTINGS"
+      echo "  'driver' => 'pgsql'," >> "$SETTINGS"
       ;;
     "sqlite")
       echo SQLite
