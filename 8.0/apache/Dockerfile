@@ -1,5 +1,5 @@
 # from https://www.drupal.org/requirements/php#drupalversions
-FROM php:7-apache
+FROM php:7.0-apache
 
 RUN a2enmod rewrite
 
