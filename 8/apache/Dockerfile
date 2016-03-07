@@ -22,7 +22,7 @@ RUN { \
 ENV DRUPAL_VERSION 8.0.5
 ENV DRUPAL_MD5 c13a69b0f99d70ecb6415d77f484bc7f
 
-#Download Source
+#Pull down drupal source
 RUN curl -fSL "http://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o /usr/src/drupal-${DRUPAL_VERSION}.tar.gz
 
 #Move in the entrypoint script
