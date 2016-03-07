@@ -19,9 +19,8 @@ RUN { \
         } > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
 # https://www.drupal.org/node/3060/release
-ENV DRUPAL_VERSION 8.0.4
-ENV DRUPAL_MD5 7516dd4c18415020f80f000035e970ce
-
+ENV DRUPAL_VERSION 8.0.5
+ENV DRUPAL_MD5 c13a69b0f99d70ecb6415d77f484bc7f
 
 #Download Source
 RUN curl -fSL "http://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o /usr/src/drupal-${DRUPAL_VERSION}.tar.gz

@@ -1,5 +1,5 @@
 # from https://www.drupal.org/requirements/php#drupalversions
-FROM php:5.6-fpm
+FROM php:7-fpm
 
 # install the PHP extensions we need
 RUN apt-get update && apt-get install -y libpng12-dev libjpeg-dev libpq-dev \
@@ -22,19 +22,18 @@ RUN { \
 VOLUME /var/www/html
 
 # https://www.drupal.org/node/3060/release
-ENV DRUPAL_VERSION 8.0.3
-ENV DRUPAL_MD5 7d5f5278a870b8f4a29cda4fe915d619
-
+ENV DRUPAL_VERSION 8.0.5
+ENV DRUPAL_MD5 c13a69b0f99d70ecb6415d77f484bc7f
 
 
 RUN curl -fSL "http://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o /usr/src/drupal-${DRUPAL_VERSION}.tar.gz
 
 #Move in the entrypoint script
-COPY drupal_entrypoint.sh /drupal_entrypoint.sh
+COPY drupal_entrypoint.sh /usr/local/sbin/entrypoint.sh
 
 #Define data volumes
-#VOLUME ["/var/www/html/modules", "/var/www/html/profiles", "/var/www/html/themes", "/var/www/html/sites"]
+VOLUME ["/var/www/html"]
 
 #Set the entrypoint
-ENTRYPOINT ["/drupal_entrypoint.sh"]
+ENTRYPOINT ["entrypoint.sh"]
 CMD ["php-fpm"]
