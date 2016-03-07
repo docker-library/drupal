@@ -117,8 +117,12 @@ if ! [ -e /var/www/html/sites/default/settings.php ]; then
 
   #Check SQLite Params
   if [ "$DRUPAL_DB_TYPE" = 'sqlite' ]; then
-    #Need More details on this config
-    echo SQLite
+    #Check SQLite file
+    if [ -z "$SQLITE_DB_FILE" ]; then
+      echo 'No SQLite database file was provided'
+      echo "  Setting default SQLite database file to 'sites/default/files/.ht.sqlite'"
+      SQLITE_DB_FILE='/sites/default/files/.ht.sqlite'
+    fi
   fi
 
   #Check for table name prefix
@@ -154,7 +158,10 @@ if ! [ -e /var/www/html/sites/default/settings.php ]; then
       echo "  'driver' => 'pgsql'," >> "$SETTINGS"
       ;;
     "sqlite")
-      echo SQLite
+      echo "  'database' => '"$SQLITE_DB_FILE"'," >> "$SETTINGS"
+      echo "  'prefix' => '"$DRUPAL_TBL_PREFIX"'," >> "$SETTNGS"
+      echo "  'namespace' => 'Drupal\\\\Core\\\\Database\\\\Driver\\\\sqlite'," >> "$SETTINGS"
+      echo "  'driver' => 'sqlite'," >> "$SETTINGS"
       ;;
     *)
       echo >&2 'error: Unknown Drupal database type provided'
