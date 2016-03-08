@@ -159,7 +159,7 @@ if ! [ -e /var/www/html/sites/default/settings.php ]; then
       ;;
     "sqlite")
       echo "  'database' => '"$SQLITE_DB_FILE"'," >> "$SETTINGS"
-      echo "  'prefix' => '"$DRUPAL_TBL_PREFIX"'," >> "$SETTNGS"
+      echo "  'prefix' => '"$DRUPAL_TBL_PREFIX"'," >> "$SETTINGS"
       echo "  'namespace' => 'Drupal\\\\Core\\\\Database\\\\Driver\\\\sqlite'," >> "$SETTINGS"
       echo "  'driver' => 'sqlite'," >> "$SETTINGS"
       ;;
