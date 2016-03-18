@@ -1,8 +1,8 @@
 # from https://www.drupal.org/requirements/php#drupalversions
 FROM php:7.0-apache
 
-# install the PHP extensions we need
-RUN apt-get update && apt-get install -y libpng12-dev libjpeg-dev libpq-dev \
+# install the PHP extensions we need - and vim for drush settings.php editing
+RUN apt-get update && apt-get install -y libpng12-dev libjpeg-dev libpq-dev vim \
         && rm -rf /var/lib/apt/lists/* \
         && docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
         && docker-php-ext-install gd mbstring opcache pdo pdo_mysql pdo_pgsql zip
@@ -24,6 +24,12 @@ ENV DRUPAL_MD5 c13a69b0f99d70ecb6415d77f484bc7f
 
 #Pull down drupal source
 RUN curl -fSL "http://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o /usr/src/drupal-${DRUPAL_VERSION}.tar.gz
+
+#Pull down drush
+RUN curl -fSL "http://files.drush.org/drush.phar" -o /usr/local/bin/drush
+
+#Make drush executable
+RUN chmod +x /usr/local/bin/drush
 
 #Move in the entrypoint script
 COPY drupal_entrypoint.sh /usr/local/sbin/entrypoint.sh
