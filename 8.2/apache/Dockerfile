@@ -26,7 +26,7 @@ WORKDIR /var/www/html
 ENV DRUPAL_VERSION 8.2.0-beta3
 ENV DRUPAL_MD5 be99e1bc4050587b5cf414a9ab947356
 
-RUN curl -fSL "http://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o drupal.tar.gz \
+RUN curl -fSL "https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o drupal.tar.gz \
 	&& echo "${DRUPAL_MD5} *drupal.tar.gz" | md5sum -c - \
 	&& tar -xz --strip-components=1 -f drupal.tar.gz \
 	&& rm drupal.tar.gz \
