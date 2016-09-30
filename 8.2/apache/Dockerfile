@@ -20,6 +20,10 @@ RUN { \
 		echo 'opcache.enable_cli=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
+# install Drush
+RUN curl -fSL "http://files.drush.org/drush.phar" -o /usr/local/bin/drush \
+	&& chmod +x /usr/local/bin/drush
+
 WORKDIR /var/www/html
 
 # https://www.drupal.org/node/3060/release
