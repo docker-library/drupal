@@ -18,6 +18,10 @@ RUN { \
 		echo 'opcache.enable_cli=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
+# install Drush
+RUN curl -fSL "http://files.drush.org/drush.phar" -o /usr/local/bin/drush \
+	&& chmod +x /usr/local/bin/drush
+
 # https://www.drupal.org/node/3060/release
 ENV DRUPAL_VERSION 8.1.10
 ENV DRUPAL_MD5 ce373a1a7a075ff9035b1c95f54170a4
