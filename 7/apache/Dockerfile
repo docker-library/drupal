@@ -16,6 +16,9 @@ ENV DRUPAL_MD5 f23905b0248d76f0fc8316692cd64753
 # Download Drupal.
 RUN curl -fSL "http://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o /usr/src/drupal-${DRUPAL_VERSION}.tar.gz
 
+# Mount a volume at /var/www/html.
+VOLUME /var/www/html
+
 # Set the entrypoint.
 COPY docker-entrypoint.sh /usr/local/bin/
 ENTRYPOINT ["docker-entrypoint.sh"]
