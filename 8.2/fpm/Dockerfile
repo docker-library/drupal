@@ -24,11 +24,8 @@ WORKDIR /var/www/html
 ENV DRUPAL_VERSION 8.2.0-rc2
 ENV DRUPAL_MD5 e6e7d9bb669fd82a8dd730ef0e47377d
 
-RUN curl -fSL "https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o drupal.tar.gz \
-	&& echo "${DRUPAL_MD5} *drupal.tar.gz" | md5sum -c - \
-	&& tar -xz --strip-components=1 -f drupal.tar.gz \
-	&& rm drupal.tar.gz \
-	&& chown -R www-data:www-data sites modules themes
+# Download Drupal.
+RUN curl -fSL "http://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o /usr/src/drupal-${DRUPAL_VERSION}.tar.gz
 
 # Set the entrypoint.
 COPY docker-entrypoint.sh /usr/local/bin/
