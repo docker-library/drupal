@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# Get the current Drupal version, if available.
+CURRENT_VERSION="$(drush --root=/var/www/html --format=yaml status | grep 'drupal-version' | sed 's/drupal-version: \(.*\)/\1/')"
+
 # Unpack Drupal codebase, if it isn't already.
 if ! [ -e /var/www/html/sites/default/default.settings.php ]; then
   echo >&2 "Unpacking Drupal $DRUPAL_VERSION..."
