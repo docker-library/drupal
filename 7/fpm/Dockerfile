@@ -10,8 +10,8 @@ RUN apt-get update && apt-get install -y libpng12-dev libjpeg-dev libpq-dev \
 WORKDIR /var/www/html
 
 # https://www.drupal.org/node/3060/release
-ENV DRUPAL_VERSION 7.50
-ENV DRUPAL_MD5 f23905b0248d76f0fc8316692cd64753
+ENV DRUPAL_VERSION 7.51
+ENV DRUPAL_MD5 49f82c1cac8e4bd4941ca160fcbee93d
 
 RUN curl -fSL "https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o drupal.tar.gz \
 	&& echo "${DRUPAL_MD5} *drupal.tar.gz" | md5sum -c - \
