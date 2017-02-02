@@ -4,6 +4,8 @@ services: docker
 env:
   - VERSION=8.2 VARIANT=apache
   - VERSION=8.2 VARIANT=fpm
+  - VERSION=8.3 VARIANT=apache
+  - VERSION=8.3 VARIANT=fpm
   - VERSION=7 VARIANT=apache
   - VERSION=7 VARIANT=fpm
 
