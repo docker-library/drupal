@@ -3,6 +3,7 @@ set -eu
 
 declare -A aliases=(
 	[8.2]='8 latest'
+	[8.3-rc]='rc'
 )
 
 self="$(basename "$BASH_SOURCE")"
@@ -52,15 +53,16 @@ join() {
 }
 
 for version in "${versions[@]}"; do
+	rcVersion="${version%-rc}"
 	for variant in apache fpm; do
 		commit="$(dirCommit "$version/$variant")"
 
 		fullVersion="$(git show "$commit":"$version/$variant/Dockerfile" | awk '$1 == "ENV" && $2 == "DRUPAL_VERSION" { print $3; exit }')"
 
 		versionAliases=()
-		while [ "$fullVersion" != "$version" -a "${fullVersion%[.-]*}" != "$fullVersion" ]; do
+		while [ "$fullVersion" != "$rcVersion" -a "${fullVersion%[.]*}" != "$fullVersion" ]; do
 			versionAliases+=( $fullVersion )
-			fullVersion="${fullVersion%[.-]*}"
+			fullVersion="${fullVersion%[.]*}"
 		done
 		versionAliases+=(
 			$version
