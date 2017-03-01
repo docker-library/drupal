@@ -30,7 +30,7 @@ for version in "${versions[@]}"; do
 		exit 1
 	fi
 	md5="$(grep -A6 -m1 '>drupal-'"$fullVersion"'.tar.gz<' release | grep -A1 -m1 '"md5 hash"' | tail -1 | awk '{ print $1 }')"
-	
+
 	(
 		set -x
 		sed -ri '
@@ -38,8 +38,8 @@ for version in "${versions[@]}"; do
 			s/^(ENV DRUPAL_MD5) .*/\1 '"$md5"'/;
 		' "$version"/*/Dockerfile
 	)
-	
-	for variant in fpm apache; do
+
+	for variant in fpm-alpine fpm apache; do
 		travisEnv='\n  - VERSION='"$version"' VARIANT='"$variant$travisEnv"
 	done
 done
