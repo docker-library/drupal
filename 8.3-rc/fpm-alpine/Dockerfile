@@ -3,21 +3,28 @@ FROM php:7.0-fpm-alpine
 
 # install the PHP extensions we need
 # postgresql-dev is needed for https://bugs.alpinelinux.org/issues/3642
-RUN apk add --no-cache \
-		freetype \
-		libpng \
-		libjpeg-turbo \
+RUN set -ex \
+	&& apk add --no-cache --virtual .build-deps \
+		coreutils \
 		freetype-dev \
-		libpng-dev \
 		libjpeg-turbo-dev \
+		libpng-dev \
 		postgresql-dev \
 	&& docker-php-ext-configure gd \
 		--with-freetype-dir=/usr/include/ \
-		--with-png-dir=/usr/include/ \
 		--with-jpeg-dir=/usr/include/ \
-	&& NPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) \
-	&& docker-php-ext-install -j${NPROC} gd mbstring opcache pdo pdo_mysql pdo_pgsql zip \
-	&& apk del --no-cache freetype-dev libpng-dev libjpeg-turbo-dev
+		--with-png-dir=/usr/include/ \
+	&& docker-php-ext-install -j "$(nproc)" gd mbstring opcache pdo pdo_mysql pdo_pgsql zip \
+	&& runDeps="$( \
+		scanelf --needed --nobanner --recursive \
+			/usr/local/lib/php/extensions \
+			| awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' \
+			| sort -u \
+			| xargs -r apk info --installed \
+			| sort -u \
+	)" \
+	&& apk add --virtual .drupal-phpexts-rundeps $runDeps \
+	&& apk del .build-deps
 
 # set recommended PHP.ini settings
 # see https://secure.php.net/manual/en/opcache.installation.php
