@@ -1,7 +1,5 @@
 # from https://www.drupal.org/requirements/php#drupalversions
-FROM php:7.1-apache
-
-RUN a2enmod rewrite
+FROM php:7.1-fpm
 
 # install the PHP extensions we need
 RUN set -ex \
@@ -36,8 +34,8 @@ RUN { \
 WORKDIR /var/www/html
 
 # https://www.drupal.org/node/3060/release
-ENV DRUPAL_VERSION 8.3.0-rc2
-ENV DRUPAL_MD5 3bcddc9a48801f7035c7cb0e6f02f6d0
+ENV DRUPAL_VERSION 8.3.0
+ENV DRUPAL_MD5 1dcce599eddba07eb00e8879937525c3
 
 RUN curl -fSL "https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o drupal.tar.gz \
 	&& echo "${DRUPAL_MD5} *drupal.tar.gz" | md5sum -c - \
