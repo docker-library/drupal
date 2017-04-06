@@ -1,24 +1,30 @@
 # from https://www.drupal.org/requirements/php#drupalversions
-FROM php:7.1-fpm
+FROM php:7.0-fpm-alpine
 
 # install the PHP extensions we need
+# postgresql-dev is needed for https://bugs.alpinelinux.org/issues/3642
 RUN set -ex \
-	&& buildDeps=' \
-		libjpeg62-turbo-dev \
-		libpng12-dev \
-		libpq-dev \
-	' \
-	&& apt-get update && apt-get install -y --no-install-recommends $buildDeps && rm -rf /var/lib/apt/lists/* \
+	&& apk add --no-cache --virtual .build-deps \
+		coreutils \
+		freetype-dev \
+		libjpeg-turbo-dev \
+		libpng-dev \
+		postgresql-dev \
 	&& docker-php-ext-configure gd \
-		--with-jpeg-dir=/usr \
-		--with-png-dir=/usr \
+		--with-freetype-dir=/usr/include/ \
+		--with-jpeg-dir=/usr/include/ \
+		--with-png-dir=/usr/include/ \
 	&& docker-php-ext-install -j "$(nproc)" gd mbstring opcache pdo pdo_mysql pdo_pgsql zip \
-# PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/local/lib/php/extensions/no-debug-non-zts-20151012/gd.so' - libjpeg.so.62: cannot open shared object file: No such file or directory in Unknown on line 0
-# PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/local/lib/php/extensions/no-debug-non-zts-20151012/pdo_pgsql.so' - libpq.so.5: cannot open shared object file: No such file or directory in Unknown on line 0
-	&& apt-mark manual \
-		libjpeg62-turbo \
-		libpq5 \
-	&& apt-get purge -y --auto-remove $buildDeps
+	&& runDeps="$( \
+		scanelf --needed --nobanner --recursive \
+			/usr/local/lib/php/extensions \
+			| awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' \
+			| sort -u \
+			| xargs -r apk info --installed \
+			| sort -u \
+	)" \
+	&& apk add --virtual .drupal-phpexts-rundeps $runDeps \
+	&& apk del .build-deps
 
 # set recommended PHP.ini settings
 # see https://secure.php.net/manual/en/opcache.installation.php
@@ -34,8 +40,8 @@ RUN { \
 WORKDIR /var/www/html
 
 # https://www.drupal.org/node/3060/release
-ENV DRUPAL_VERSION 8.3.0-rc2
-ENV DRUPAL_MD5 3bcddc9a48801f7035c7cb0e6f02f6d0
+ENV DRUPAL_VERSION 8.3.0
+ENV DRUPAL_MD5 1dcce599eddba07eb00e8879937525c3
 
 RUN curl -fSL "https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o drupal.tar.gz \
 	&& echo "${DRUPAL_MD5} *drupal.tar.gz" | md5sum -c - \
