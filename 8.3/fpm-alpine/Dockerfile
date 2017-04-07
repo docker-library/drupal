@@ -1,5 +1,5 @@
 # from https://www.drupal.org/requirements/php#drupalversions
-FROM php:7.0-fpm-alpine
+FROM php:7.1-fpm-alpine
 
 # install the PHP extensions we need
 # postgresql-dev is needed for https://bugs.alpinelinux.org/issues/3642
