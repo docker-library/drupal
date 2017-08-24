@@ -37,6 +37,22 @@ dirCommit() {
 	)
 }
 
+getArches() {
+	local repo="$1"; shift
+	local officialImagesUrl='https://github.com/docker-library/official-images/raw/master/library/'
+
+	eval "declare -g -A parentRepoToArches=( $(
+		find -name 'Dockerfile' -exec awk '
+				toupper($1) == "FROM" && $2 !~ /^('"$repo"'|scratch|microsoft\/[^:]+)(:|$)/ {
+					print "'"$officialImagesUrl"'" $2
+				}
+			' '{}' + \
+			| sort -u \
+			| xargs bashbrew cat --format '[{{ .RepoName }}:{{ .TagName }}]="{{ join " " .TagEntry.Architectures }}"'
+	) )"
+}
+getArches 'drupal'
+
 cat <<-EOH
 # this file is generated via https://github.com/docker-library/drupal/blob/$(fileCommit "$self")/$self
 
@@ -72,6 +88,9 @@ for version in "${versions[@]}"; do
 		variantAliases=( "${versionAliases[@]/%/-$variant}" )
 		variantAliases=( "${variantAliases[@]//latest-/}" )
 
+		variantParent="$(awk 'toupper($1) == "FROM" { print $2 }' "$version/$variant/Dockerfile")"
+		variantArches="${parentRepoToArches[$variantParent]}"
+
 		if [ "$variant" = 'apache' ]; then
 			variantAliases+=( "${versionAliases[@]}" )
 		fi
@@ -79,6 +98,7 @@ for version in "${versions[@]}"; do
 		echo
 		cat <<-EOE
 			Tags: $(join ', ' "${variantAliases[@]}")
+			Architectures: $(join ', ' $variantArches)
 			GitCommit: $commit
 			Directory: $version/$variant
 		EOE
