@@ -16,12 +16,10 @@ RUN set -ex \
 		--with-png-dir=/usr/include/ \
 	&& docker-php-ext-install -j "$(nproc)" gd mbstring pdo pdo_mysql pdo_pgsql zip \
 	&& runDeps="$( \
-		scanelf --needed --nobanner --recursive \
-			/usr/local/lib/php/extensions \
-			| awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' \
+		scanelf --needed --nobanner --format '%n#p' --recursive /usr/local \
+			| tr ',' '\n' \
 			| sort -u \
-			| xargs -r apk info --installed \
-			| sort -u \
+			| awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
 	)" \
 	&& apk add --virtual .drupal-phpexts-rundeps $runDeps \
 	&& apk del .build-deps
