@@ -5,7 +5,7 @@ FROM php:7.2-fpm
 RUN set -ex \
 	&& buildDeps=' \
 		libjpeg62-turbo-dev \
-		libpng12-dev \
+		libpng-dev \
 		libpq-dev \
 	' \
 	&& apt-get update && apt-get install -y --no-install-recommends $buildDeps && rm -rf /var/lib/apt/lists/* \
