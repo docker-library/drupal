@@ -1,5 +1,5 @@
 # from https://www.drupal.org/requirements/php#drupalversions
-FROM php:7.1-apache
+FROM php:7.2-apache
 
 RUN a2enmod rewrite
 
@@ -7,7 +7,7 @@ RUN a2enmod rewrite
 RUN set -ex \
 	&& buildDeps=' \
 		libjpeg62-turbo-dev \
-		libpng12-dev \
+		libpng-dev \
 		libpq-dev \
 	' \
 	&& apt-get update && apt-get install -y --no-install-recommends $buildDeps && rm -rf /var/lib/apt/lists/* \
@@ -36,8 +36,8 @@ RUN { \
 WORKDIR /var/www/html
 
 # https://www.drupal.org/node/3060/release
-ENV DRUPAL_VERSION 8.3.7
-ENV DRUPAL_MD5 e7b1f382d6bd2b18d4b4aca01d335bc0
+ENV DRUPAL_VERSION 8.5.0-alpha1
+ENV DRUPAL_MD5 415dda1360f95c376870d2a3786483c7
 
 RUN curl -fSL "https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o drupal.tar.gz \
 	&& echo "${DRUPAL_MD5} *drupal.tar.gz" | md5sum -c - \
