@@ -9,6 +9,12 @@ if [ ${#versions[@]} -eq 0 ]; then
 fi
 versions=( "${versions[@]%/}" )
 
+declare -A phpVersions=(
+	[7]='7.0'
+	[8.4]='7.1'
+	[8.5-rc]='7.2'
+)
+
 curl -fsSL 'https://www.drupal.org/node/3060/release' -o release
 trap 'rm -f release' EXIT
 
@@ -31,15 +37,23 @@ for version in "${versions[@]}"; do
 	fi
 	md5="$(grep -A6 -m1 '>drupal-'"$fullVersion"'.tar.gz<' release | grep -A1 -m1 '"md5 hash"' | tail -1 | awk '{ print $1 }')"
 
-	(
-		set -x
-		sed -ri '
-			s/^(ENV DRUPAL_VERSION) .*/\1 '"$fullVersion"'/;
-			s/^(ENV DRUPAL_MD5) .*/\1 '"$md5"'/;
-		' "$version"/*/Dockerfile
-	)
 
 	for variant in fpm-alpine fpm apache; do
+		dist='debian'
+		if [[ "$variant" = *alpine ]]; then
+			dist='alpine'
+		fi
+
+		(
+			set -x
+			sed -r \
+				-e 's/%%PHP_VERSION%%/'"${phpVersions[$version]}"'/' \
+				-e 's/%%VARIANT%%/'"$variant"'/' \
+				-e 's/%%VERSION%%/'"$fullVersion"'/' \
+				-e 's/%%MD5%%/'"$md5"'/' \
+			"./Dockerfile-$dist.template" > "$version/$variant/Dockerfile"
+		)
+
 		travisEnv='\n  - VERSION='"$version"' VARIANT='"$variant$travisEnv"
 	done
 done
