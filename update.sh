@@ -9,9 +9,9 @@ if [ ${#versions[@]} -eq 0 ]; then
 fi
 versions=( "${versions[@]%/}" )
 
+defaultPhpVersion='7.2'
 declare -A phpVersions=(
 	[7]='7.0'
-	[8.5]='7.2'
 )
 
 curl -fsSL 'https://www.drupal.org/node/3060/release' -o release
@@ -46,7 +46,7 @@ for version in "${versions[@]}"; do
 		(
 			set -x
 			sed -r \
-				-e 's/%%PHP_VERSION%%/'"${phpVersions[$version]}"'/' \
+				-e 's/%%PHP_VERSION%%/'"${phpVersions[$version]:-$defaultPhpVersion}"'/' \
 				-e 's/%%VARIANT%%/'"$variant"'/' \
 				-e 's/%%VERSION%%/'"$fullVersion"'/' \
 				-e 's/%%MD5%%/'"$md5"'/' \
