@@ -12,6 +12,8 @@ versions=( "${versions[@]%/}" )
 defaultPhpVersion='7.2'
 declare -A phpVersions=(
 	[7]='7.0'
+	[8.3]='7.1'
+	[8.4]='7.1'
 )
 
 curl -fsSL 'https://www.drupal.org/node/3060/release' -o release
