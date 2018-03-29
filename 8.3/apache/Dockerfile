@@ -1,5 +1,5 @@
-# from https://www.drupal.org/requirements/php#drupalversions
-FROM php:7.2-apache
+# from https://www.drupal.org/docs/8/system-requirements/drupal-8-php-requirements
+FROM php:7.1-apache
 
 # install the PHP extensions we need
 RUN set -ex; \
