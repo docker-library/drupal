@@ -11,10 +11,10 @@ versions=( "${versions[@]%/}" )
 
 defaultPhpVersion='7.2'
 declare -A phpVersions=(
-	[7]='7.0'
+	[7]='7.1'
 )
 
-curl -fsSL 'https://www.drupal.org/node/3060/release' -o release
+curl -fsSL 'https://www.drupal.org/node/3060/release' -H 'authority: www.drupal.org' -o release
 trap 'rm -f release' EXIT
 
 travisEnv=
