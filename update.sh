@@ -14,9 +14,6 @@ declare -A phpVersions=(
 	[7]='7.1'
 )
 
-curl -fsSL 'https://www.drupal.org/node/3060/release' -H 'authority: www.drupal.org' -o release
-trap 'rm -f release' EXIT
-
 travisEnv=
 for version in "${versions[@]}"; do
 	rcGrepV='-v'
@@ -25,8 +22,16 @@ for version in "${versions[@]}"; do
 		rcGrepV=
 	fi
 	fullVersion="$(
-		grep -E '>drupal-'"$rcVersion"'\.[0-9a-z.-]+\.tar\.gz<' release \
-			| sed -r 's!.*<a[^>]+>drupal-([^<]+)\.tar\.gz</a>.*!\1!' \
+		wget -qO- "https://updates.drupal.org/release-history/drupal/${rcVersion%%.*}.x" \
+			| awk -v RS='[<>]' '
+					$1 == "release" { release = 1; version = ""; mdhash = ""; tag = ""; next }
+					release && $1 ~ /^version|mdhash$/ { tag = $1; next }
+					release && tag == "version" { version = $1 }
+					release && tag == "mdhash" { mdhash = $1 }
+					release { tag = "" }
+					release && $1 == "/release" { release = 0; print version, mdhash }
+				' \
+			| grep -E "^${rcVersion}[. -]" \
 			| grep $rcGrepV -E -- '-rc|-beta|-alpha|-dev' \
 			| head -1
 	)"
@@ -34,8 +39,10 @@ for version in "${versions[@]}"; do
 		echo >&2 "error: cannot find release for $version"
 		exit 1
 	fi
-	md5="$(grep -A6 -m1 '>drupal-'"$fullVersion"'.tar.gz<' release | grep -A1 -m1 '"md5 hash"' | tail -1 | awk '{ print $1 }')"
+	md5="${fullVersion##* }"
+	fullVersion="${fullVersion% $md5}"
 
+	echo "$version: $fullVersion ($md5)"
 
 	for variant in fpm-alpine fpm apache; do
 		dist='debian'
@@ -43,15 +50,12 @@ for version in "${versions[@]}"; do
 			dist='alpine'
 		fi
 
-		(
-			set -x
-			sed -r \
-				-e 's/%%PHP_VERSION%%/'"${phpVersions[$version]:-$defaultPhpVersion}"'/' \
-				-e 's/%%VARIANT%%/'"$variant"'/' \
-				-e 's/%%VERSION%%/'"$fullVersion"'/' \
-				-e 's/%%MD5%%/'"$md5"'/' \
-			"./Dockerfile-$dist.template" > "$version/$variant/Dockerfile"
-		)
+		sed -r \
+			-e 's/%%PHP_VERSION%%/'"${phpVersions[$version]:-$defaultPhpVersion}"'/' \
+			-e 's/%%VARIANT%%/'"$variant"'/' \
+			-e 's/%%VERSION%%/'"$fullVersion"'/' \
+			-e 's/%%MD5%%/'"$md5"'/' \
+		"./Dockerfile-$dist.template" > "$version/$variant/Dockerfile"
 
 		travisEnv='\n  - VERSION='"$version"' VARIANT='"$variant$travisEnv"
 	done
