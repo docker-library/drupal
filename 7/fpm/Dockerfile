@@ -54,8 +54,8 @@ RUN { \
 WORKDIR /var/www/html
 
 # https://www.drupal.org/node/3060/release
-ENV DRUPAL_VERSION 7.61
-ENV DRUPAL_MD5 94bc49170d98e0cfe59db487911ecb9d
+ENV DRUPAL_VERSION 7.62
+ENV DRUPAL_MD5 ba6c2d9f1757da31e804b92cab09dc17
 
 RUN curl -fSL "https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o drupal.tar.gz \
 	&& echo "${DRUPAL_MD5} *drupal.tar.gz" | md5sum -c - \
