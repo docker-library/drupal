@@ -9,9 +9,9 @@ if [ ${#versions[@]} -eq 0 ]; then
 fi
 versions=( "${versions[@]%/}" )
 
-defaultPhpVersion='7.2'
+defaultPhpVersion='7.3'
 declare -A phpVersions=(
-	[7]='7.1'
+	[7]='7.2'
 )
 
 travisEnv=
