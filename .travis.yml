@@ -2,12 +2,12 @@ language: bash
 services: docker
 
 env:
+  - VERSION=8.7 VARIANT=apache
+  - VERSION=8.7 VARIANT=fpm
+  - VERSION=8.7 VARIANT=fpm-alpine
   - VERSION=8.6 VARIANT=apache
   - VERSION=8.6 VARIANT=fpm
   - VERSION=8.6 VARIANT=fpm-alpine
-  - VERSION=8.5 VARIANT=apache
-  - VERSION=8.5 VARIANT=fpm
-  - VERSION=8.5 VARIANT=fpm-alpine
   - VERSION=7 VARIANT=apache
   - VERSION=7 VARIANT=fpm
   - VERSION=7 VARIANT=fpm-alpine

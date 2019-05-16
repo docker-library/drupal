@@ -9,6 +9,7 @@ RUN set -ex \
 		freetype-dev \
 		libjpeg-turbo-dev \
 		libpng-dev \
+		libzip-dev \
 		postgresql-dev \
 	&& docker-php-ext-configure gd \
 		--with-freetype-dir=/usr/include/ \
