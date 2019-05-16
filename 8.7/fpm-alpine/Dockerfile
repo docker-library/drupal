@@ -45,10 +45,10 @@ WORKDIR /var/www/html
 
 # https://www.drupal.org/node/3060/release
 ENV DRUPAL_VERSION 8.7.1
-ENV DRUPAL_MD5 2cf2a1c93ea785c6ff91d29aebef2697
+ENV DRUPAL_SHA256 0740de22a7a415b3892f2942b5023e3f570601b428c43e0302a075027b704570
 
 RUN curl -fSL "https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o drupal.tar.gz \
-	&& echo "${DRUPAL_MD5} *drupal.tar.gz" | md5sum -c - \
+	&& echo "${DRUPAL_SHA256} *drupal.tar.gz" | sha256sum -c - \
 	&& tar -xz --strip-components=1 -f drupal.tar.gz \
 	&& rm drupal.tar.gz \
 	&& chown -R www-data:www-data sites modules themes
