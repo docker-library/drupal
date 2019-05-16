@@ -42,13 +42,7 @@ for version in "${versions[@]}"; do
 	md5="${fullVersion##* }"
 	fullVersion="${fullVersion% $md5}"
 
-	sha256="$(
-		wget -qO- "https://www.drupal.org/project/drupal/releases/$fullVersion" \
-			| tac|tac \
-			| grep -m1 'SHA-256:' | grep -oE '[0-9a-f]{64}'
-	)"
-
-	echo "$version: $fullVersion ($sha256)"
+	echo "$version: $fullVersion ($md5)"
 
 	for variant in fpm-alpine fpm apache; do
 		dist='debian'
@@ -60,7 +54,7 @@ for version in "${versions[@]}"; do
 			-e 's/%%PHP_VERSION%%/'"${phpVersions[$version]:-$defaultPhpVersion}"'/' \
 			-e 's/%%VARIANT%%/'"$variant"'/' \
 			-e 's/%%VERSION%%/'"$fullVersion"'/' \
-			-e 's/%%SHA256%%/'"$sha256"'/' \
+			-e 's/%%MD5%%/'"$md5"'/' \
 		"./Dockerfile-$dist.template" > "$version/$variant/Dockerfile"
 
 		travisEnv='\n  - VERSION='"$version"' VARIANT='"$variant$travisEnv"
