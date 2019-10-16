@@ -1,5 +1,5 @@
 # from https://www.drupal.org/docs/8/system-requirements/drupal-8-php-requirements
-FROM php:7.3-fpm
+FROM php:7.3-fpm-stretch
 
 # install the PHP extensions we need
 RUN set -eux; \

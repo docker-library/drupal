@@ -1,5 +1,5 @@
 # from https://www.drupal.org/docs/8/system-requirements/drupal-8-php-requirements
-FROM php:7.3-fpm
+FROM php:7.2-apache-stretch
 
 # install the PHP extensions we need
 RUN set -eux; \
@@ -60,8 +60,8 @@ RUN { \
 WORKDIR /var/www/html
 
 # https://www.drupal.org/node/3060/release
-ENV DRUPAL_VERSION 8.6.17
-ENV DRUPAL_MD5 9018a2d11381aeb0e269ca696fed9ac5
+ENV DRUPAL_VERSION 7.67
+ENV DRUPAL_MD5 78b1814e55fdaf40e753fd523d059f8d
 
 RUN set -eux; \
 	curl -fSL "https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o drupal.tar.gz; \
