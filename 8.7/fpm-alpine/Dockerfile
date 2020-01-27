@@ -53,11 +53,13 @@ WORKDIR /var/www/html
 ENV DRUPAL_VERSION 8.7.11
 ENV DRUPAL_MD5 bcf01576c060dfb7de0ec1f7125f7bbe
 
+# sed to fix https://www.drupal.org/project/drupal/issues/3094738
 RUN set -eux; \
 	curl -fSL "https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o drupal.tar.gz; \
 	echo "${DRUPAL_MD5} *drupal.tar.gz" | md5sum -c -; \
 	tar -xz --strip-components=1 -f drupal.tar.gz; \
 	rm drupal.tar.gz; \
+	sed -i "s/OR pg_attrdef.adsrc LIKE 'nextval%')/OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) LIKE 'nextval%')/g" ./core/lib/Drupal/Core/Database/Driver/pgsql/Schema.php; \
 	chown -R www-data:www-data sites modules themes
 
 # vim:set ft=dockerfile:
