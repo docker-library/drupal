@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eo pipefail
+set -euo pipefail
 
 cd "$(dirname "$(readlink -f "$BASH_SOURCE")")"
 
@@ -22,13 +22,32 @@ for version in "${versions[@]}"; do
 	if [ "$rcVersion" != "$version" ]; then
 		rcGrepV=
 	fi
+
+	case "$rcVersion" in
+		7|8.*)
+			# e.g. 7.x or 8.x
+			drupalRelease="${rcVersion%%.*}.x"
+			;;
+		9.*)
+			# there is no "9.x" or `9.0.x` endpoint
+			# (07/2020) current could also be used for 8.7, 8.8, 8.9, 9.0, 9.1
+			drupalRelease='current'
+			;;
+	esac
+
+	fullVersion=
 	fullVersion="$(
-		wget -qO- "https://updates.drupal.org/release-history/drupal/${rcVersion%%.*}.x" \
+		wget -qO- "https://updates.drupal.org/release-history/drupal/$drupalRelease" \
 			| awk -v RS='[<>]' '
-					$1 == "release" { release = 1; version = ""; mdhash = ""; tag = ""; next }
+					$1 == "release" { release = 1; version = ""; mdhash = ""; tag = ""; file = ""; next }
 					release && $1 ~ /^version|mdhash$/ { tag = $1; next }
 					release && tag == "version" { version = $1 }
 					release && tag == "mdhash" { mdhash = $1 }
+					release && !mdhash && $1 ~ /^file$/ { file = 1; isTar = ""; next }
+					release && file && $1 ~ /^url|md5$/ { tag = $1; next }
+					release && file && tag == "url" && $1 ~ /tar.gz$/ { isTar = 1; next }
+					release && file && isTar && tag == "md5" { mdhash = $1 }
+					release && file && $1 == "/file" { file = ""; isTar = "" }
 					release { tag = "" }
 					release && $1 == "/release" { release = 0; print version, mdhash }
 				' \
