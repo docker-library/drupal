@@ -53,7 +53,7 @@ ENV DRUPAL_VERSION 7.71
 ENV DRUPAL_MD5 559227e04b8fa86e0374dbed6a228109
 
 RUN set -eux; \
-	curl -fSL "https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o drupal.tar.gz; \
+	curl -fSL "https://ftp.drupal.org/files/projects/drupal-7.71.tar.gz" -o drupal.tar.gz; \
 	echo "${DRUPAL_MD5} *drupal.tar.gz" | md5sum -c -; \
 	tar -xz --strip-components=1 -f drupal.tar.gz; \
 	rm drupal.tar.gz; \

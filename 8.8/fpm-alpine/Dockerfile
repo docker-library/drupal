@@ -53,7 +53,7 @@ ENV DRUPAL_VERSION 8.8.7
 ENV DRUPAL_MD5 cf073efecded37ef41122fb63b9721a2
 
 RUN set -eux; \
-	curl -fSL "https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o drupal.tar.gz; \
+	curl -fSL "https://ftp.drupal.org/files/projects/drupal-8.8.7.tar.gz" -o drupal.tar.gz; \
 	echo "${DRUPAL_MD5} *drupal.tar.gz" | md5sum -c -; \
 	tar -xz --strip-components=1 -f drupal.tar.gz; \
 	rm drupal.tar.gz; \
