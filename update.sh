@@ -1,48 +1,16 @@
 #!/bin/bash
 set -eo pipefail
 
-cd "$(dirname "$(readlink -f "$BASH_SOURCE")")"
-
-versions=( "$@" )
-if [ ${#versions[@]} -eq 0 ]; then
-	versions=( */ )
-fi
-versions=( "${versions[@]%/}" )
-
-# https://www.drupal.org/docs/8/system-requirements/php-requirements#php_required
 defaultPhpVersion='7.4'
 declare -A phpVersions=(
 	# https://www.drupal.org/docs/7/system-requirements/php-requirements#php_required
 	#[7]='7.2'
 )
-
-for version in "${versions[@]}"; do
-	rcGrepV='-v'
-	rcVersion="${version%-rc}"
-	if [ "$rcVersion" != "$version" ]; then
-		rcGrepV=
-	fi
-	fullVersion="$(
-		wget -qO- "https://updates.drupal.org/release-history/drupal/${rcVersion%%.*}.x" \
-			| awk -v RS='[<>]' '
-					$1 == "release" { release = 1; version = ""; mdhash = ""; tag = ""; next }
-					release && $1 ~ /^version|mdhash$/ { tag = $1; next }
-					release && tag == "version" { version = $1 }
-					release && tag == "mdhash" { mdhash = $1 }
-					release { tag = "" }
-					release && $1 == "/release" { release = 0; print version, mdhash }
-				' \
-			| grep -E "^${rcVersion}[. -]" \
-			| grep $rcGrepV -E -- '-rc|-beta|-alpha|-dev' \
-			| head -1
-	)"
-	if [ -z "$fullVersion" ]; then
-		echo >&2 "error: cannot find release for $version"
-		exit 1
-	fi
-	md5="${fullVersion##* }"
-	fullVersion="${fullVersion% $md5}"
-
+docker run -ti -v $PWD/xml.php:/xml.php php:cli php /xml.php > /tmp/versions
+IFS=" "
+while read version fullVersion url md5
+do
+	md5=${md5//$'\r'}
 	echo "$version: $fullVersion ($md5)"
 
 	for variant in fpm-alpine fpm apache; do
@@ -51,11 +19,14 @@ for version in "${versions[@]}"; do
 			dist='alpine'
 		fi
 
+		mkdir -p $version/$variant
 		sed -r \
 			-e 's/%%PHP_VERSION%%/'"${phpVersions[$version]:-$defaultPhpVersion}"'/' \
 			-e 's/%%VARIANT%%/'"$variant"'/' \
 			-e 's/%%VERSION%%/'"$fullVersion"'/' \
+			-e 's!%%URL%%!'"$url"'!' \
 			-e 's/%%MD5%%/'"$md5"'/' \
 		"./Dockerfile-$dist.template" > "$version/$variant/Dockerfile"
 	done
-done
+done < /tmp/versions
+
