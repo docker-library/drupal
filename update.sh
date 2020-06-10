@@ -6,6 +6,7 @@ declare -A phpVersions=(
 	# https://www.drupal.org/docs/7/system-requirements/php-requirements#php_required
 	#[7]='7.2'
 )
+docker pull php:cli 
 docker run -ti -v $PWD/xml.php:/xml.php php:cli php /xml.php > /tmp/versions
 IFS=" "
 while read version fullVersion url md5
