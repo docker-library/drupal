@@ -39,15 +39,10 @@ for version in "${versions[@]}"; do
 	fullVersion="$(
 		wget -qO- "https://updates.drupal.org/release-history/drupal/$drupalRelease" \
 			| awk -v RS='[<>]' '
-					$1 == "release" { release = 1; version = ""; mdhash = ""; tag = ""; file = ""; next }
+					$1 == "release" { release = 1; version = ""; mdhash = ""; tag = ""; next }
 					release && $1 ~ /^version|mdhash$/ { tag = $1; next }
 					release && tag == "version" { version = $1 }
 					release && tag == "mdhash" { mdhash = $1 }
-					release && !mdhash && $1 ~ /^file$/ { file = 1; isTar = ""; next }
-					release && file && $1 ~ /^url|md5$/ { tag = $1; next }
-					release && file && tag == "url" && $1 ~ /tar.gz$/ { isTar = 1; next }
-					release && file && isTar && tag == "md5" { mdhash = $1 }
-					release && file && $1 == "/file" { file = ""; isTar = "" }
 					release { tag = "" }
 					release && $1 == "/release" { release = 0; print version, mdhash }
 				' \
@@ -62,19 +57,32 @@ for version in "${versions[@]}"; do
 	md5="${fullVersion##* }"
 	fullVersion="${fullVersion% $md5}"
 
+	if [ "$version" != '7' ]; then
+		md5='composer'
+	fi
 	echo "$version: $fullVersion ($md5)"
 
-	for variant in fpm-alpine fpm apache; do
+	for variant in {apache,fpm}-buster fpm-alpine3.12; do
+		[ -e "$version/$variant" ] || continue
 		dist='debian'
-		if [[ "$variant" = *alpine ]]; then
+		if [[ "$variant" = *alpine* ]]; then
 			dist='alpine'
 		fi
 
-		sed -r \
-			-e 's/%%PHP_VERSION%%/'"${phpVersions[$version]:-$defaultPhpVersion}"'/' \
-			-e 's/%%VARIANT%%/'"$variant"'/' \
-			-e 's/%%VERSION%%/'"$fullVersion"'/' \
-			-e 's/%%MD5%%/'"$md5"'/' \
-		"./Dockerfile-$dist.template" > "$version/$variant/Dockerfile"
+		phpImage="${phpVersions[$version]:-$defaultPhpVersion}-$variant"
+		if [ "$version" = '7' ]; then
+			# 7 has no release in drupal/recommended-project
+			# so its Dockerfile is based on the old template
+			sed -ri \
+				-e 's/^(FROM php:).*$/\1'"${phpImage}"'/' \
+				-e 's/^(ENV DRUPAL_VERSION ).*$/\1'"$fullVersion"'/' \
+				-e 's/^(ENV DRUPAL_MD5 ).*$/\1'"$md5"'/' \
+			"$version/$variant/Dockerfile"
+		else
+			sed -r \
+				-e 's/%%PHP_VERSION%%/'"${phpImage}"'/' \
+				-e 's/%%VERSION%%/'"$fullVersion"'/' \
+			"./Dockerfile-$dist.template" > "$version/$variant/Dockerfile"
+		fi
 	done
 done

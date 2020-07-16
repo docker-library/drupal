@@ -1,5 +1,5 @@
 # from https://www.drupal.org/docs/8/system-requirements/drupal-8-php-requirements
-FROM php:%%PHP_VERSION%%
+FROM php:7.4-apache-buster
 
 # install the PHP extensions we need
 RUN set -eux; \
@@ -57,7 +57,7 @@ RUN { \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
 # https://www.drupal.org/node/3060/release
-ENV DRUPAL_VERSION %%VERSION%%
+ENV DRUPAL_VERSION 9.0.2
 
 # https://github.com/drupal/drupal/blob/9.0.1/composer.lock#L4052-L4053
 COPY --from=composer:1.10 /usr/bin/composer /usr/local/bin/
