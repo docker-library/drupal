@@ -56,8 +56,6 @@ RUN { \
 		echo 'opcache.fast_shutdown=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
-WORKDIR /var/www/html
-
 # https://www.drupal.org/node/3060/release
 ENV DRUPAL_VERSION 7.72
 ENV DRUPAL_MD5 ed967195ce0e78bf2ab7245aaf0649d6

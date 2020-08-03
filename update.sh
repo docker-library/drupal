@@ -29,13 +29,12 @@ for version in "${versions[@]}"; do
 			drupalRelease="${rcVersion%%.*}.x"
 			;;
 		9.*)
-			# there is no "9.x" or `9.0.x` endpoint
+			# there is no https://updates.drupal.org/release-history/drupal/9.x (or 9.0.x)
 			# (07/2020) current could also be used for 8.7, 8.8, 8.9, 9.0, 9.1
 			drupalRelease='current'
 			;;
 	esac
 
-	fullVersion=
 	fullVersion="$(
 		wget -qO- "https://updates.drupal.org/release-history/drupal/$drupalRelease" \
 			| awk -v RS='[<>]' '
@@ -57,10 +56,7 @@ for version in "${versions[@]}"; do
 	md5="${fullVersion##* }"
 	fullVersion="${fullVersion% $md5}"
 
-	if [ "$version" != '7' ]; then
-		md5='composer'
-	fi
-	echo "$version: $fullVersion ($md5)"
+	echo "$version: $fullVersion"
 
 	for variant in {apache,fpm}-buster fpm-alpine3.12; do
 		[ -e "$version/$variant" ] || continue
@@ -70,19 +66,16 @@ for version in "${versions[@]}"; do
 		fi
 
 		phpImage="${phpVersions[$version]:-$defaultPhpVersion}-$variant"
+		template="Dockerfile-$dist.template"
 		if [ "$version" = '7' ]; then
 			# 7 has no release in drupal/recommended-project
 			# so its Dockerfile is based on the old template
-			sed -ri \
-				-e 's/^(FROM php:).*$/\1'"${phpImage}"'/' \
-				-e 's/^(ENV DRUPAL_VERSION ).*$/\1'"$fullVersion"'/' \
-				-e 's/^(ENV DRUPAL_MD5 ).*$/\1'"$md5"'/' \
-			"$version/$variant/Dockerfile"
-		else
-			sed -r \
-				-e 's/%%PHP_VERSION%%/'"${phpImage}"'/' \
-				-e 's/%%VERSION%%/'"$fullVersion"'/' \
-			"./Dockerfile-$dist.template" > "$version/$variant/Dockerfile"
+			template="Dockerfile-7-$dist.template"
 		fi
+		sed -r \
+			-e 's/%%PHP_VERSION%%/'"${phpImage}"'/' \
+			-e 's/%%VERSION%%/'"$fullVersion"'/' \
+			-e 's/%%MD5%%/'"$md5"'/' \
+		"$template" > "$version/$variant/Dockerfile"
 	done
 done

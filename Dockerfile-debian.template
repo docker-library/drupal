@@ -68,11 +68,10 @@ RUN set -eux; \
 	rmdir /var/www/html; \
 	composer create-project --no-install "drupal/recommended-project:$DRUPAL_VERSION" ./; \
 	sed -i 's!web/!html/!g' composer.json; \
-	composer install; \
+	composer install --no-interaction; \
 	cd html; \
 	chown -R www-data:www-data sites modules themes; \
 	# delete composer cache
 	rm -rf "$COMPOSER_HOME"
 
-WORKDIR /var/www/html
 # vim:set ft=dockerfile:
