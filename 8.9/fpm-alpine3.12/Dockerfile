@@ -46,21 +46,19 @@ RUN { \
 		echo 'opcache.fast_shutdown=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
+# https://github.com/drupal/drupal/blob/9.0.1/composer.lock#L4052-L4053
+COPY --from=composer:1.10 /usr/bin/composer /usr/local/bin/
+
 # https://www.drupal.org/node/3060/release
 ENV DRUPAL_VERSION 8.9.2
 
-# https://github.com/drupal/drupal/blob/9.0.1/composer.lock#L4052-L4053
-COPY --from=composer:1.10 /usr/bin/composer /usr/local/bin/
+WORKDIR /opt/drupal
 RUN set -eux; \
 	export COMPOSER_HOME="$(mktemp -d)"; \
-	cd /var/www/; \
-	# composer won't install to a non-empty dir: 'Project directory "/var/www/" is not empty.'
+	composer create-project --no-interaction "drupal/recommended-project:$DRUPAL_VERSION" ./; \
+	chown -R www-data:www-data web/sites web/modules web/themes; \
 	rmdir /var/www/html; \
-	composer create-project --no-install "drupal/recommended-project:$DRUPAL_VERSION" ./; \
-	sed -i 's!web/!html/!g' composer.json; \
-	composer install --no-interaction; \
-	cd html; \
-	chown -R www-data:www-data sites modules themes; \
+	ln -sf /opt/drupal/web /var/www/html; \
 	# delete composer cache
 	rm -rf "$COMPOSER_HOME"
 
