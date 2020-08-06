@@ -1,5 +1,5 @@
-#!/bin/bash
-set -eu
+#!/usr/bin/env bash
+set -Eeuo pipefail
 
 declare -A aliases=(
 	[8.9]='8'
@@ -47,19 +47,38 @@ dirCommit() {
 	)
 }
 
+gawkParents='
+	{ cmd = toupper($1) }
+	cmd == "FROM" {
+		print $2
+		next
+	}
+	cmd == "COPY" {
+		for (i = 2; i < NF; i++) {
+			if ($i ~ /^--from=/) {
+				gsub(/^--from=/, "", $i)
+				print $i
+				next
+			}
+		}
+	}
+'
+
 getArches() {
 	local repo="$1"; shift
-	local officialImagesUrl='https://github.com/docker-library/official-images/raw/master/library/'
 
-	eval "declare -g -A parentRepoToArches=( $(
-		find -name 'Dockerfile' -exec awk '
-				toupper($1) == "FROM" && $2 !~ /^('"$repo"'|scratch|.*\/.*)(:|$)/ {
-					print "'"$officialImagesUrl"'" $2
-				}
-			' '{}' + \
+	local parentRepoToArchesStr
+	parentRepoToArchesStr="$(
+		find -name 'Dockerfile' -exec gawk "$gawkParents" '{}' + \
 			| sort -u \
-			| xargs bashbrew cat --format '[{{ .RepoName }}:{{ .TagName }}]="{{ join " " .TagEntry.Architectures }}"'
-	) )"
+			| gawk -v officialImagesUrl='https://github.com/docker-library/official-images/raw/master/library/' '
+				$1 !~ /^('"$repo"'|scratch|.*\/.*)(:|$)/ {
+					printf "%s%s\n", officialImagesUrl, $1
+				}
+			' \
+			| xargs -r bashbrew cat --format '["{{ .RepoName }}:{{ .TagName }}"]="{{ join " " .TagEntry.Architectures }}"'
+	)"
+	eval "declare -g -A parentRepoToArches=( $parentRepoToArchesStr )"
 }
 getArches 'drupal'
 
@@ -108,8 +127,22 @@ for version in "${versions[@]}"; do
 		esac
 		variantAliases=( "${variantAliases[@]//latest-/}" )
 
-		variantParent="$(awk 'toupper($1) == "FROM" { print $2 }' "$version/$variant/Dockerfile")"
-		variantArches="${parentRepoToArches[$variantParent]}"
+		variantParents="$(gawk "$gawkParents" "$version/$variant/Dockerfile")"
+		variantArches=
+		for variantParent in $variantParents; do
+			parentArches="${parentRepoToArches[$variantParent]:-}"
+			if [ -z "$parentArches" ]; then
+				continue
+			elif [ -z "$variantArches" ]; then
+				variantArches="$parentArches"
+			else
+				variantArches="$(
+					comm -12 \
+						<(xargs -n1 <<<"$variantArches" | sort -u) \
+						<(xargs -n1 <<<"$parentArches" | sort -u)
+				)"
+			fi
+		done
 
 		if [[ "$variant" = apache-* ]]; then
 			variantAliases+=( "${versionAliases[@]}" )
