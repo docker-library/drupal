@@ -1,6 +1,5 @@
 # from https://www.drupal.org/docs/8/system-requirements/drupal-8-php-requirements
 FROM php:7.4-fpm-buster
-# TODO switch to buster once https://github.com/docker-library/php/issues/865 is resolved in a clean way (either in the PHP image or in PHP itself)
 
 # install the PHP extensions we need
 RUN set -eux; \
@@ -57,17 +56,20 @@ RUN { \
 		echo 'opcache.fast_shutdown=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
-WORKDIR /var/www/html
+# https://github.com/drupal/drupal/blob/9.0.1/composer.lock#L4052-L4053
+COPY --from=composer:1.10 /usr/bin/composer /usr/local/bin/
 
 # https://www.drupal.org/node/3060/release
-ENV DRUPAL_VERSION 7.72
-ENV DRUPAL_MD5 ed967195ce0e78bf2ab7245aaf0649d6
+ENV DRUPAL_VERSION 9.0.2
 
+WORKDIR /opt/drupal
 RUN set -eux; \
-	curl -fSL "https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o drupal.tar.gz; \
-	echo "${DRUPAL_MD5} *drupal.tar.gz" | md5sum -c -; \
-	tar -xz --strip-components=1 -f drupal.tar.gz; \
-	rm drupal.tar.gz; \
-	chown -R www-data:www-data sites modules themes
+	export COMPOSER_HOME="$(mktemp -d)"; \
+	composer create-project --no-interaction "drupal/recommended-project:$DRUPAL_VERSION" ./; \
+	chown -R www-data:www-data web/sites web/modules web/themes; \
+	rmdir /var/www/html; \
+	ln -sf /opt/drupal/web /var/www/html; \
+	# delete composer cache
+	rm -rf "$COMPOSER_HOME"
 
 # vim:set ft=dockerfile:

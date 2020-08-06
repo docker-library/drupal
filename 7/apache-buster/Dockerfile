@@ -1,6 +1,5 @@
 # from https://www.drupal.org/docs/8/system-requirements/drupal-8-php-requirements
 FROM php:7.4-apache-buster
-# TODO switch to buster once https://github.com/docker-library/php/issues/865 is resolved in a clean way (either in the PHP image or in PHP itself)
 
 # install the PHP extensions we need
 RUN set -eux; \
@@ -57,11 +56,9 @@ RUN { \
 		echo 'opcache.fast_shutdown=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
-WORKDIR /var/www/html
-
 # https://www.drupal.org/node/3060/release
-ENV DRUPAL_VERSION 8.8.8
-ENV DRUPAL_MD5 c8265f0228ca0306de7b2755e4731a3d
+ENV DRUPAL_VERSION 7.72
+ENV DRUPAL_MD5 ed967195ce0e78bf2ab7245aaf0649d6
 
 RUN set -eux; \
 	curl -fSL "https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o drupal.tar.gz; \

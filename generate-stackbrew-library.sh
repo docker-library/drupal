@@ -2,9 +2,16 @@
 set -eu
 
 declare -A aliases=(
-	[8.9]='8 latest'
-	[8.10-rc]='rc'
+	[8.9]='8'
+	[9.0]='9 latest'
+	[9.1-rc]='rc'
 )
+
+defaultDebianSuite='buster'
+declare -A debianSuites=(
+	#[9.0]='buster'
+)
+defaultAlpineVersion='3.12'
 
 self="$(basename "$BASH_SOURCE")"
 cd "$(dirname "$(readlink -f "$BASH_SOURCE")")"
@@ -30,6 +37,9 @@ dirCommit() {
 			$(git show HEAD:./Dockerfile | awk '
 				toupper($1) == "COPY" {
 					for (i = 2; i < NF; i++) {
+						if ($i ~ /^--from=/) {
+							next
+						}
 						print $i
 					}
 				}
@@ -70,7 +80,8 @@ join() {
 
 for version in "${versions[@]}"; do
 	rcVersion="${version%-rc}"
-	for variant in apache fpm fpm-alpine; do
+	for variant in {apache,fpm}-buster fpm-alpine3.12; do
+		[ -e "$version/$variant/Dockerfile" ] || continue
 		commit="$(dirCommit "$version/$variant")"
 
 		fullVersion="$(git show "$commit":"$version/$variant/Dockerfile" | awk '$1 == "ENV" && $2 == "DRUPAL_VERSION" { print $3; exit }')"
@@ -86,12 +97,21 @@ for version in "${versions[@]}"; do
 		)
 
 		variantAliases=( "${versionAliases[@]/%/-$variant}" )
+		debianSuite="${debianSuites[$version]:-$defaultDebianSuite}"
+		case "$variant" in
+			*-"$debianSuite") # "-apache-buster", -> "-apache"
+				variantAliases+=( "${versionAliases[@]/%/-${variant%-$debianSuite}}" )
+				;;
+			fpm-"alpine${defaultAlpineVersion}")
+				variantAliases+=( "${versionAliases[@]/%/-fpm-alpine}" )
+				;;
+		esac
 		variantAliases=( "${variantAliases[@]//latest-/}" )
 
 		variantParent="$(awk 'toupper($1) == "FROM" { print $2 }' "$version/$variant/Dockerfile")"
 		variantArches="${parentRepoToArches[$variantParent]}"
 
-		if [ "$variant" = 'apache' ]; then
+		if [[ "$variant" = apache-* ]]; then
 			variantAliases+=( "${versionAliases[@]}" )
 		fi
 
