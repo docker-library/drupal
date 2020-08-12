@@ -72,4 +72,6 @@ RUN set -eux; \
 	# delete composer cache
 	rm -rf "$COMPOSER_HOME"
 
+ENV PATH=${PATH}:/opt/drupal/vendor/bin
+
 # vim:set ft=dockerfile:
