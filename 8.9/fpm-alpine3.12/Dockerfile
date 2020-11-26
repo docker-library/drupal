@@ -50,7 +50,7 @@ RUN { \
 COPY --from=composer:1.10 /usr/bin/composer /usr/local/bin/
 
 # https://www.drupal.org/node/3060/release
-ENV DRUPAL_VERSION 8.9.9
+ENV DRUPAL_VERSION 8.9.10
 
 WORKDIR /opt/drupal
 RUN set -eux; \
