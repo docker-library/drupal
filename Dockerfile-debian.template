@@ -1,4 +1,4 @@
-# from https://www.drupal.org/docs/8/system-requirements/drupal-8-php-requirements
+# from https://www.drupal.org/docs/system-requirements/php-requirements
 FROM php:%%PHP_VERSION%%
 
 # install the PHP extensions we need
