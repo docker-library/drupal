@@ -10,10 +10,13 @@ fi
 versions=( "${versions[@]%/}" )
 
 # https://www.drupal.org/docs/8/system-requirements/php-requirements#php_required
-defaultPhpVersion='7.4'
+defaultPhpVersion='8.0'
 declare -A phpVersions=(
 	# https://www.drupal.org/docs/7/system-requirements/php-requirements#php_required
-	#[7]='7.2'
+	[7]='7.4'
+	[8.8]='7.4'
+	[8.9]='7.4'
+	[9.0]='7.4'
 )
 
 for version in "${versions[@]}"; do

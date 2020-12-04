@@ -1,5 +1,5 @@
 # from https://www.drupal.org/docs/system-requirements/php-requirements
-FROM php:7.4-fpm-alpine3.12
+FROM php:8.0-fpm-alpine3.12
 
 # install the PHP extensions we need
 # postgresql-dev is needed for https://bugs.alpinelinux.org/issues/3642
@@ -50,7 +50,7 @@ RUN { \
 COPY --from=composer:1.10 /usr/bin/composer /usr/local/bin/
 
 # https://www.drupal.org/node/3060/release
-ENV DRUPAL_VERSION 9.0.10
+ENV DRUPAL_VERSION 9.1.0
 
 WORKDIR /opt/drupal
 RUN set -eux; \
