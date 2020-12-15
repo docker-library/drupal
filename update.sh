@@ -14,7 +14,6 @@ defaultPhpVersion='8.0'
 declare -A phpVersions=(
 	# https://www.drupal.org/docs/7/system-requirements/php-requirements#php_required
 	[7]='7.4'
-	[8.8]='7.4'
 	[8.9]='7.4'
 	[9.0]='7.4'
 )
@@ -33,7 +32,7 @@ for version in "${versions[@]}"; do
 			;;
 		9.*)
 			# there is no https://updates.drupal.org/release-history/drupal/9.x (or 9.0.x)
-			# (07/2020) current could also be used for 8.7, 8.8, 8.9, 9.0, 9.1
+			# (07/2020) current could also be used for 8.9, 9.0, 9.1
 			drupalRelease='current'
 			;;
 	esac
