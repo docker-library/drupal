@@ -46,8 +46,7 @@ RUN { \
 		echo 'opcache.fast_shutdown=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
-# https://github.com/drupal/drupal/blob/9.0.1/composer.lock#L4052-L4053
-COPY --from=composer:1.10 /usr/bin/composer /usr/local/bin/
+COPY --from=composer:2.0 /usr/bin/composer /usr/local/bin/
 
 # https://www.drupal.org/node/3060/release
 ENV DRUPAL_VERSION 9.1.2
