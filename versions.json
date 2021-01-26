@@ -12,7 +12,9 @@
     "version": "7.78"
   },
   "8.9": {
-    "composerVersion": "1.10",
+    "composer": {
+      "version": "1.10"
+    },
     "md5": "75f7a83b14a1e4ec13ca9827f71ccd1c",
     "phpVersions": [
       "7.4"
@@ -25,7 +27,9 @@
     "version": "8.9.13"
   },
   "9.0": {
-    "composerVersion": "1.10",
+    "composer": {
+      "version": "1.10"
+    },
     "phpVersions": [
       "7.4"
     ],
@@ -37,7 +41,9 @@
     "version": "9.0.11"
   },
   "9.1": {
-    "composerVersion": "2.0",
+    "composer": {
+      "version": "2.0"
+    },
     "phpVersions": [
       "8.0",
       "7.4"

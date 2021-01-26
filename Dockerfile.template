@@ -83,7 +83,7 @@ RUN { \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
 {{ if env.version | startswith("7") then "" else ( -}}
-COPY --from=composer:{{ .composerVersion }} /usr/bin/composer /usr/local/bin/
+COPY --from=composer:{{ .composer.version }} /usr/bin/composer /usr/local/bin/
 
 {{ ) end -}}
 # https://www.drupal.org/node/3060/release

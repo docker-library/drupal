@@ -12,12 +12,6 @@ else
 fi
 versions=( "${versions[@]%/}" )
 
-declare -A composerVersions=(
-	[8.9]='1.10' # https://github.com/drupal/drupal/blob/8.9.12/composer.lock#L4357-L4358
-	[9.0]='1.10' # https://github.com/drupal/drupal/blob/9.0.10/composer.lock#L4448-L4449
-	[9.1]='2.0' # https://github.com/drupal/drupal/blob/9.1.2/composer.lock#L4730-L4731
-)
-
 for version in "${versions[@]}"; do
 	export version
 
@@ -66,13 +60,26 @@ for version in "${versions[@]}"; do
 		doc="$(jq <<<"$doc" -c '.md5 = env.md5')"
 	fi
 
-	echo "$version: $fullVersion"
-
-	composerVersion="${composerVersions[$version]:-}"
+	composerVersion="$(
+		wget -qO- "https://github.com/drupal/drupal/raw/$fullVersion/composer.lock" \
+			| jq -r '
+				(.packages, ."packages-dev")[]
+				| select(.name == "composer/composer")
+				| .version
+				| split(".")[0:2] | join(".")
+			' \
+			|| :
+	)"
+	if [ "$version" != '7' ] && [ -z "$composerVersion" ]; then
+		echo >&2 "error: cannot find composer version for '$version' ('$fullVersion')"
+		exit 1
+	fi
 	if [ -n "$composerVersion" ]; then
 		export composerVersion
-		doc="$(jq <<<"$doc" -c '.composerVersion = env.composerVersion')"
+		doc="$(jq <<<"$doc" -c '.composer = { version: env.composerVersion }')"
 	fi
+
+	echo "$version: $fullVersion${composerVersion:+ (composer $composerVersion)}"
 
 	export fullVersion
 	json="$(
