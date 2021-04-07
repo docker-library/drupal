@@ -1,6 +1,6 @@
 {
   "7": {
-    "md5": "67c8e2974421e8d549ad705169977498",
+    "md5": "672d35b4e172721452f351ee01644d76",
     "phpVersions": [
       "7.4"
     ],
@@ -9,7 +9,7 @@
       "fpm-buster",
       "fpm-alpine3.12"
     ],
-    "version": "7.78"
+    "version": "7.79"
   },
   "8.9": {
     "composer": {
