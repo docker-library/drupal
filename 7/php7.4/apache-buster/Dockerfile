@@ -63,8 +63,8 @@ RUN { \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
 # https://www.drupal.org/node/3060/release
-ENV DRUPAL_VERSION 7.79
-ENV DRUPAL_MD5 672d35b4e172721452f351ee01644d76
+ENV DRUPAL_VERSION 7.80
+ENV DRUPAL_MD5 cfbbc4cde2782f4e7298db3991ca6f56
 
 RUN set -eux; \
 	curl -fSL "https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o drupal.tar.gz; \
