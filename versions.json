@@ -38,7 +38,7 @@
       "fpm-buster",
       "fpm-alpine3.12"
     ],
-    "version": "9.0.11"
+    "version": "9.0.12"
   },
   "9.1": {
     "composer": {
