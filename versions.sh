@@ -66,7 +66,7 @@ for version in "${versions[@]}"; do
 				(.packages, ."packages-dev")[]
 				| select(.name == "composer/composer")
 				| .version
-				| split(".")[0:2] | join(".")
+				| split(".")[0:1] | join(".")
 			' \
 			|| :
 	)"
