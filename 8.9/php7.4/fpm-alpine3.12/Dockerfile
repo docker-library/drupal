@@ -52,7 +52,7 @@ RUN { \
 		echo 'opcache.fast_shutdown=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
-COPY --from=composer:1.10 /usr/bin/composer /usr/local/bin/
+COPY --from=composer:1 /usr/bin/composer /usr/local/bin/
 
 # https://www.drupal.org/node/3060/release
 ENV DRUPAL_VERSION 8.9.16
