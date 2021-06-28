@@ -29,8 +29,8 @@ for version in "${versions[@]}"; do
 			drupalRelease="${rcVersion%%.*}.x"
 			;;
 		9.*)
-			# there is no https://updates.drupal.org/release-history/drupal/9.x (or 9.0.x)
-			# (07/2020) current could also be used for 8.9, 9.0, 9.1
+			# there is no https://updates.drupal.org/release-history/drupal/9.x
+			# (07/2020) current could also be used for 8.9, 9.x
 			drupalRelease='current'
 			;;
 	esac
@@ -86,12 +86,28 @@ for version in "${versions[@]}"; do
 		jq <<<"$json" -c --argjson doc "$doc" '
 			.[env.version] = {
 				version: env.fullVersion,
-				variants: [ "apache-buster", "fpm-buster", "fpm-alpine3.12" ],
-				phpVersions: (
-					if [ "7", "8.9", "9.0"] | index(env.version) then
-						[ "7.4" ]
+				variants: [
+					if [ "8.9", "9.1" ] | index(env.version) then
+						"buster",
+						"alpine3.13"
 					else
+						"buster",
+						"alpine3.14",
+						"alpine3.13"
+					end
+					| if startswith("alpine") then empty else "apache-" + . end,
+						"fpm-" + .
+				],
+				phpVersions: (
+					# https://www.drupal.org/docs/system-requirements/php-requirements
+					if [ "7", "8.9" ] | index(env.version) then
+						[ "7.4" ]
+					elif env.version | startswith("9.") then
 						[ "8.0", "7.4" ]
+					else
+						# https://www.drupal.org/project/drupal/issues/3118147
+						# Require PHP 8 for Drupal 10
+						[ "8.0" ]
 					end
 				),
 			} + $doc
