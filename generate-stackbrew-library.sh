@@ -3,22 +3,20 @@ set -Eeuo pipefail
 
 declare -A aliases=(
 	[8.9]='8'
-	[9.1]='9 latest'
-	[9.2-rc]='rc'
+	[9.2]='9 latest'
+	[9.3-rc]='rc'
 )
 
 defaultDebianSuite='buster'
 declare -A debianSuites=(
-	#[9.0]='buster'
+	#[9.2]='buster'
 )
-defaultAlpineVersion='3.12'
 
 defaultPhpVersion='php8.0'
 declare -A defaultPhpVersions=(
 # https://www.drupal.org/docs/7/system-requirements/php-requirements#php_required
 	[7]='php7.4'
 	[8.9]='php7.4'
-	[9.0]='php7.4'
 )
 
 self="$(basename "$BASH_SOURCE")"
@@ -116,6 +114,7 @@ for version; do
 	eval "variants=( $variants )"
 
 	fullVersion="$(jq -r '.[env.version].version' versions.json)"
+	latestAlpineVersion="$(jq -r '.[env.version].variants[] | ltrimstr("fpm-") | select(startswith("alpine")) | ltrimstr("alpine")' versions.json | sort -rV | head -1)"
 
 	rcVersion="${version%-rc}"
 	versionAliases=()
@@ -145,7 +144,7 @@ for version; do
 				*-"$debianSuite") # "-apache-buster", -> "-apache"
 					variantSuffixes+=( "${variant%-$debianSuite}" )
 					;;
-				fpm-"alpine${defaultAlpineVersion}")
+				fpm-"alpine${latestAlpineVersion}")
 					variantSuffixes+=( fpm-alpine )
 					;;
 			esac
