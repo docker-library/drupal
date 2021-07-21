@@ -65,7 +65,7 @@ RUN { \
 COPY --from=composer:1 /usr/bin/composer /usr/local/bin/
 
 # https://www.drupal.org/node/3060/release
-ENV DRUPAL_VERSION 8.9.16
+ENV DRUPAL_VERSION 8.9.17
 
 WORKDIR /opt/drupal
 RUN set -eux; \
