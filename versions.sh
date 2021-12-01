@@ -24,8 +24,8 @@ for version in "${versions[@]}"; do
 	fi
 
 	case "$rcVersion" in
-		7|8.*)
-			# e.g. 7.x or 8.x
+		7)
+			# e.g. 7.x
 			drupalRelease="${rcVersion%%.*}.x"
 			;;
 		9.*)
@@ -100,7 +100,7 @@ for version in "${versions[@]}"; do
 				],
 				phpVersions: (
 					# https://www.drupal.org/docs/system-requirements/php-requirements
-					if [ "7", "8.9" ] | index(env.version) then
+					if env.version == "7" then
 						[ "7.4" ]
 					elif env.version | startswith("9.") then
 						[ "8.0", "7.4" ]
