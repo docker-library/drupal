@@ -87,14 +87,10 @@ for version in "${versions[@]}"; do
 			.[env.version] = {
 				version: env.fullVersion,
 				variants: [
-					if [ "8.9", "9.1" ] | index(env.version) then
-						"buster",
-						"alpine3.13"
-					else
-						"buster",
-						"alpine3.14",
-						"alpine3.13"
-					end
+					"bullseye",
+					"buster",
+					"alpine3.15",
+					"alpine3.14"
 					| if startswith("alpine") then empty else "apache-" + . end,
 						"fpm-" + .
 				],
