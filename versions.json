@@ -12,21 +12,6 @@
     ],
     "version": "7.82"
   },
-  "8.9": {
-    "composer": {
-      "version": "1"
-    },
-    "md5": "03c77251b7332bf7e194b9702b077dd2",
-    "phpVersions": [
-      "7.4"
-    ],
-    "variants": [
-      "apache-buster",
-      "fpm-buster",
-      "fpm-alpine3.13"
-    ],
-    "version": "8.9.20"
-  },
   "9.1": {
     "composer": {
       "version": "2"
