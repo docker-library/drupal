@@ -5,10 +5,12 @@
       "7.4"
     ],
     "variants": [
+      "apache-bullseye",
+      "fpm-bullseye",
       "apache-buster",
       "fpm-buster",
-      "fpm-alpine3.14",
-      "fpm-alpine3.13"
+      "fpm-alpine3.15",
+      "fpm-alpine3.14"
     ],
     "version": "7.82"
   },
@@ -21,9 +23,12 @@
       "7.4"
     ],
     "variants": [
+      "apache-bullseye",
+      "fpm-bullseye",
       "apache-buster",
       "fpm-buster",
-      "fpm-alpine3.13"
+      "fpm-alpine3.15",
+      "fpm-alpine3.14"
     ],
     "version": "9.1.15"
   },
@@ -36,10 +41,12 @@
       "7.4"
     ],
     "variants": [
+      "apache-bullseye",
+      "fpm-bullseye",
       "apache-buster",
       "fpm-buster",
-      "fpm-alpine3.14",
-      "fpm-alpine3.13"
+      "fpm-alpine3.15",
+      "fpm-alpine3.14"
     ],
     "version": "9.2.10"
   }

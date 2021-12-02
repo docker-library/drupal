@@ -6,7 +6,7 @@ declare -A aliases=(
 	[9.3-rc]='rc'
 )
 
-defaultDebianSuite='buster'
+defaultDebianSuite='bullseye'
 declare -A debianSuites=(
 	#[9.2]='buster'
 )
@@ -38,9 +38,8 @@ dirCommit() {
 	local dir="$1"; shift
 	(
 		cd "$dir"
-		fileCommit \
-			Dockerfile \
-			$(git show HEAD:./Dockerfile | awk '
+		files="$(
+			git show HEAD:./Dockerfile | awk '
 				toupper($1) == "COPY" {
 					for (i = 2; i < NF; i++) {
 						if ($i ~ /^--from=/) {
@@ -49,7 +48,9 @@ dirCommit() {
 						print $i
 					}
 				}
-			')
+			'
+		)"
+		fileCommit Dockerfile $files
 	)
 }
 
@@ -113,6 +114,8 @@ for version; do
 
 	fullVersion="$(jq -r '.[env.version].version' versions.json)"
 	latestAlpineVersion="$(jq -r '.[env.version].variants[] | ltrimstr("fpm-") | select(startswith("alpine")) | ltrimstr("alpine")' versions.json | sort -rV | head -1)"
+	debianSuite="${debianSuites[$version]:-$defaultDebianSuite}"
+	versionDefaultPhpVersion="${defaultPhpVersions[$version]:-$defaultPhpVersion}"
 
 	rcVersion="${version%-rc}"
 	versionAliases=()
@@ -137,13 +140,12 @@ for version; do
 			phpVersionAliases=( "${phpVersionAliases[@]//latest-/}" )
 
 			variantSuffixes=( "$variant" )
-			debianSuite="${debianSuites[$version]:-$defaultDebianSuite}"
 			case "$variant" in
 				*-"$debianSuite") # "-apache-buster", -> "-apache"
 					variantSuffixes+=( "${variant%-$debianSuite}" )
 					;;
-				fpm-"alpine${latestAlpineVersion}")
-					variantSuffixes+=( fpm-alpine )
+				*-"alpine$latestAlpineVersion") # "-fpm-alpine3.15" -> "-fpm-alpine"
+					variantSuffixes+=( "${variant%$latestAlpineVersion}" )
 					;;
 			esac
 			variantAliases=()
@@ -151,19 +153,17 @@ for version; do
 			for variantSuffix in "${variantSuffixes[@]}"; do
 				variantAliases+=( "${versionAliases[@]/%/-$variantSuffix}" )
 				phpVersionVariantAliases+=( "${phpVersionAliases[@]/%/-$variantSuffix}" )
+				if [ "$variantSuffix" = 'apache' ]; then
+					variantAliases+=( "${versionAliases[@]}" )
+					phpVersionVariantAliases+=( "${phpVersionAliases[@]}" )
+				fi
 			done
 			variantAliases=( "${variantAliases[@]//latest-/}" )
 			phpVersionVariantAliases=( "${phpVersionVariantAliases[@]//latest-/}" )
 
-			fullAliases=()
-			fullAliases+=( "${phpVersionVariantAliases[@]}" )
-			versionDefaultPhpVersion="${defaultPhpVersions[$version]:-$defaultPhpVersion}"
+			fullAliases=( "${phpVersionVariantAliases[@]}" )
 			if [ "$phpVersion" = "$versionDefaultPhpVersion" ]; then
 				fullAliases+=( "${variantAliases[@]}" )
-				if [[ "$variant" = apache-* ]]; then
-					fullAliases+=( "${versionAliases[@]}" )
-					fullAliases+=( "${phpVersionAliases[@]}" )
-				fi
 			fi
 
 			variantParents="$(gawk "$gawkParents" "$dir/Dockerfile")"
