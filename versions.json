@@ -14,24 +14,6 @@
     ],
     "version": "7.84"
   },
-  "9.1": {
-    "composer": {
-      "version": "2"
-    },
-    "phpVersions": [
-      "8.0",
-      "7.4"
-    ],
-    "variants": [
-      "apache-bullseye",
-      "fpm-bullseye",
-      "apache-buster",
-      "fpm-buster",
-      "fpm-alpine3.15",
-      "fpm-alpine3.14"
-    ],
-    "version": "9.1.15"
-  },
   "9.2": {
     "composer": {
       "version": "2"
@@ -49,5 +31,23 @@
       "fpm-alpine3.14"
     ],
     "version": "9.2.10"
+  },
+  "9.3": {
+    "composer": {
+      "version": "2"
+    },
+    "phpVersions": [
+      "8.0",
+      "7.4"
+    ],
+    "variants": [
+      "apache-bullseye",
+      "fpm-bullseye",
+      "apache-buster",
+      "fpm-buster",
+      "fpm-alpine3.15",
+      "fpm-alpine3.14"
+    ],
+    "version": "9.3.0"
   }
 }
