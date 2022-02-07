@@ -1,4 +1,21 @@
 {
+  "10.0-rc": {
+    "composer": {
+      "version": "2"
+    },
+    "phpVersions": [
+      "8.0"
+    ],
+    "variants": [
+      "apache-bullseye",
+      "fpm-bullseye",
+      "apache-buster",
+      "fpm-buster",
+      "fpm-alpine3.15",
+      "fpm-alpine3.14"
+    ],
+    "version": "10.0.0-alpha1"
+  },
   "7": {
     "md5": "75200b0b3f00140f25a990cb1ef35789",
     "phpVersions": [

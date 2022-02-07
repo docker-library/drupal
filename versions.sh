@@ -28,7 +28,7 @@ for version in "${versions[@]}"; do
 			# e.g. 7.x
 			drupalRelease="${rcVersion%%.*}.x"
 			;;
-		9.*)
+		*)
 			# there is no https://updates.drupal.org/release-history/drupal/9.x
 			# (07/2020) current could also be used for 8.9, 9.x
 			drupalRelease='current'
