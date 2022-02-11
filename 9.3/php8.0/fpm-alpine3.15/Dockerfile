@@ -15,6 +15,7 @@ RUN set -eux; \
 		freetype-dev \
 		libjpeg-turbo-dev \
 		libpng-dev \
+		libwebp-dev \
 		libzip-dev \
 # postgresql-dev is needed for https://bugs.alpinelinux.org/issues/3642
 		postgresql-dev \
@@ -23,6 +24,7 @@ RUN set -eux; \
 	docker-php-ext-configure gd \
 		--with-freetype \
 		--with-jpeg=/usr/include \
+		--with-webp \
 	; \
 	\
 	docker-php-ext-install -j "$(nproc)" \
