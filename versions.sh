@@ -101,9 +101,9 @@ for version in "${versions[@]}"; do
 					elif env.version | startswith("9.") then
 						[ "8.0", "7.4" ]
 					else
-						# https://www.drupal.org/project/drupal/issues/3118147
-						# Require PHP 8 for Drupal 10
-						[ "8.0" ]
+						# https://www.drupal.org/node/3264830
+						# Require PHP 8.1 for Drupal 10
+						[ "8.1" ]
 					end
 				),
 			} + $doc
