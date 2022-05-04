@@ -99,7 +99,13 @@ for version in "${versions[@]}"; do
 					if env.version == "7" then
 						[ "7.4" ]
 					elif env.version | startswith("9.") then
-						[ "8.0", "7.4" ]
+						[
+							if env.version != "9.2" then
+								"8.1"
+							else empty end,
+							"8.0",
+							"7.4"
+						]
 					else
 						# https://www.drupal.org/node/3264830
 						# Require PHP 8.1 for Drupal 10
