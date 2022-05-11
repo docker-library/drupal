@@ -66,6 +66,6 @@
       "fpm-alpine3.15",
       "fpm-alpine3.14"
     ],
-    "version": "9.3.12"
+    "version": "9.3.13"
   }
 }
