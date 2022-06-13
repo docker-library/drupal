@@ -11,10 +11,12 @@ declare -A debianSuites=(
 	#[9.2]='buster'
 )
 
-defaultPhpVersion='php8.0'
+defaultPhpVersion='php8.1'
 declare -A defaultPhpVersions=(
 # https://www.drupal.org/docs/7/system-requirements/php-requirements#php_required
 	[7]='php7.4'
+	[9.2]='php8.0'
+	[9.3]='php8.0'
 )
 
 self="$(basename "$BASH_SOURCE")"
