@@ -19,6 +19,7 @@
   "7": {
     "md5": "4cb30e74d1b57ef32d8efcd664e32f54",
     "phpVersions": [
+      "8.0",
       "7.4"
     ],
     "variants": [
