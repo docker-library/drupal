@@ -101,9 +101,7 @@ for version in "${versions[@]}"; do
 						[ "8.0", "7.4" ]
 					elif env.version | startswith("9.") then
 						[
-							if env.version != "9.2" then
-								"8.1"
-							else empty end,
+							"8.1",
 							"8.0",
 							"7.4"
 						]

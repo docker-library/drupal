@@ -2,7 +2,7 @@
 set -Eeuo pipefail
 
 declare -A aliases=(
-	[9.3]='9 latest'
+	[9.4]='9 latest'
 	[10.0-rc]='rc'
 )
 
@@ -15,8 +15,9 @@ defaultPhpVersion='php8.1'
 declare -A defaultPhpVersions=(
 # https://www.drupal.org/docs/7/system-requirements/php-requirements#php_required
 	[7]='php7.4'
-	[9.2]='php8.0'
+# https://www.drupal.org/docs/system-requirements/php-requirements
 	[9.3]='php8.0'
+	[9.4]='php8.0'
 )
 
 self="$(basename "$BASH_SOURCE")"
