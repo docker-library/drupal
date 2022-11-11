@@ -1,0 +1,30 @@
+diff --git a/Dockerfile.template b/Dockerfile.template
+index e48e3b9..20ae499 100644
+--- a/Dockerfile.template
++++ b/Dockerfile.template
+@@ -16,8 +16,6 @@ RUN set -eux; \
+ 		libpng-dev \
+ 		libwebp-dev \
+ 		libzip-dev \
+-# postgresql-dev is needed for https://bugs.alpinelinux.org/issues/3642
+-		postgresql-dev \
+ {{ ) else ( -}}
+ 	if command -v a2enmod; then \
+ 		a2enmod rewrite; \
+@@ -30,7 +28,6 @@ RUN set -eux; \
+ 		libfreetype6-dev \
+ 		libjpeg-dev \
+ 		libpng-dev \
+-		libpq-dev \
+ 		libwebp-dev \
+ 		libzip-dev \
+ {{ ) end -}}
+@@ -45,8 +42,6 @@ RUN set -eux; \
+ 	docker-php-ext-install -j "$(nproc)" \
+ 		gd \
+ 		opcache \
+-		pdo_mysql \
+-		pdo_pgsql \
+ 		zip \
+ 	; \
+ 	\
