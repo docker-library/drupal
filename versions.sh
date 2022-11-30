@@ -89,8 +89,8 @@ for version in "${versions[@]}"; do
 				variants: [
 					"bullseye",
 					"buster",
-					"alpine3.16",
-					"alpine3.15"
+					"alpine3.17",
+					"alpine3.16"
 					| if startswith("alpine") then empty else "apache-" + . end,
 						"fpm-" + .
 				],
@@ -98,13 +98,9 @@ for version in "${versions[@]}"; do
 					# https://www.drupal.org/docs/system-requirements/php-requirements
 					# https://www.drupal.org/docs/7/system-requirements/php-requirements
 					if env.version == "7" then
-						[ "8.0", "7.4" ]
+						[ "8.0" ]
 					elif env.version | startswith("9.") then
-						[
-							"8.1",
-							"8.0",
-							"7.4"
-						]
+						[ "8.1", "8.0" ]
 					else
 						# https://www.drupal.org/node/3264830
 						# Require PHP 8.1 for Drupal 10
