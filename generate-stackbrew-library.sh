@@ -14,7 +14,7 @@ declare -A debianSuites=(
 defaultPhpVersion='php8.1'
 declare -A defaultPhpVersions=(
 # https://www.drupal.org/docs/7/system-requirements/php-requirements#php_required
-	[7]='php7.4'
+	[7]='php8.0' # PHP 7.4 is EOL, so we don't have a choice but to update the default
 # https://www.drupal.org/docs/system-requirements/php-requirements
 	[9.3]='php8.0'
 	[9.4]='php8.0'
