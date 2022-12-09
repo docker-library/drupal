@@ -14,7 +14,7 @@
       "fpm-alpine3.17",
       "fpm-alpine3.16"
     ],
-    "version": "10.0.0-rc2"
+    "version": "10.0.0-rc3"
   },
   "7": {
     "md5": "617617081b622a3b32757c7166cbf88f",
