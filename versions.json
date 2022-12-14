@@ -17,7 +17,7 @@
     "version": "10.0.0-rc3"
   },
   "7": {
-    "md5": "617617081b622a3b32757c7166cbf88f",
+    "md5": "dae634ea0da005c5c435cfa9a9c5c322",
     "phpVersions": [
       "8.0"
     ],
@@ -29,7 +29,7 @@
       "fpm-alpine3.17",
       "fpm-alpine3.16"
     ],
-    "version": "7.93"
+    "version": "7.94"
   },
   "9.3": {
     "composer": {
