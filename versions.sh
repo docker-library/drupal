@@ -104,7 +104,7 @@ for version in "${versions[@]}"; do
 					else
 						# https://www.drupal.org/node/3264830
 						# Require PHP 8.1 for Drupal 10
-						[ "8.1" ]
+						[ "8.2", "8.1" ]
 					end
 				),
 			} + $doc
