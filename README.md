@@ -14,7 +14,7 @@ For outstanding `drupal` image PRs, check [PRs with the "library/drupal" label o
 
 ---
 
--	[![build status badge](https://img.shields.io/github/workflow/status/docker-library/drupal/GitHub%20CI/master?label=GitHub%20CI)](https://github.com/docker-library/drupal/actions?query=workflow%3A%22GitHub+CI%22+branch%3Amaster)
+-	[![build status badge](https://img.shields.io/github/actions/workflow/status/docker-library/drupal/ci.yml?branch=master&label=GitHub%20CI)](https://github.com/docker-library/drupal/actions?query=workflow%3A%22GitHub+CI%22+branch%3Amaster)
 -	[![build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/update.sh/job/drupal.svg?label=Automated%20update.sh)](https://doi-janky.infosiftr.net/job/update.sh/job/drupal/)
 
 | Build | Status | Badges | (per-arch) |
