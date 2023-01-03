@@ -5,7 +5,7 @@
 #
 
 # from https://www.drupal.org/docs/system-requirements/php-requirements
-FROM php:8.1-apache-buster
+FROM php:8.1-fpm-bullseye
 
 # install the PHP extensions we need
 RUN set -eux; \
@@ -67,7 +67,7 @@ RUN { \
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/
 
 # https://www.drupal.org/node/3060/release
-ENV DRUPAL_VERSION 10.0.0-rc3
+ENV DRUPAL_VERSION 10.0.0
 
 WORKDIR /opt/drupal
 RUN set -eux; \
