@@ -4,7 +4,7 @@
 
 https://github.com/docker-library/drupal
 
-'sqlite' branch removed the MySQL and PostgreSQL lib/extentions.
+'sqlite' branch; PHP Docker with Drupal's required lib/extentions except the MySQL and PostgreSQL lib/extentions.
 
 Just run
 
