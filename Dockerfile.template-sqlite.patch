@@ -1,5 +1,5 @@
 diff --git a/Dockerfile.template b/Dockerfile.template
-index e48e3b9..20ae499 100644
+index e48e3b9..1b000f6 100644
 --- a/Dockerfile.template
 +++ b/Dockerfile.template
 @@ -16,8 +16,6 @@ RUN set -eux; \
@@ -28,3 +28,35 @@ index e48e3b9..20ae499 100644
  		zip \
  	; \
  	\
+@@ -88,31 +83,6 @@ RUN { \
+ {{ if env.version | startswith("7") then "" else ( -}}
+ COPY --from=composer:{{ .composer.version }} /usr/bin/composer /usr/local/bin/
+ 
+-{{ ) end -}}
+-# https://www.drupal.org/node/3060/release
+-ENV DRUPAL_VERSION {{ .version }}
+-{{ if env.version | startswith("7") then ( -}}
+-ENV DRUPAL_MD5 {{ .md5 }}
+-
+-RUN set -eux; \
+-	curl -fSL "https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o drupal.tar.gz; \
+-	echo "${DRUPAL_MD5} *drupal.tar.gz" | md5sum -c -; \
+-	tar -xz --strip-components=1 -f drupal.tar.gz; \
+-	rm drupal.tar.gz; \
+-	chown -R www-data:www-data sites modules themes
+-{{ ) else ( -}}
+-
+-WORKDIR /opt/drupal
+-RUN set -eux; \
+-	export COMPOSER_HOME="$(mktemp -d)"; \
+-	composer create-project --no-interaction "drupal/recommended-project:$DRUPAL_VERSION" ./; \
+-	chown -R www-data:www-data web/sites web/modules web/themes; \
+-	rmdir /var/www/html; \
+-	ln -sf /opt/drupal/web /var/www/html; \
+-	# delete composer cache
+-	rm -rf "$COMPOSER_HOME"
+-
+-ENV PATH=${PATH}:/opt/drupal/vendor/bin
+ {{ ) end -}}
+ 
+ # vim:set ft=dockerfile:
