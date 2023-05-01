@@ -5,6 +5,9 @@
 # from https://www.drupal.org/docs/system-requirements/php-requirements
 FROM php:{{ env.phpVersion }}-{{ env.variant }}
 
+# Needed for composer patches.
+RUN apk add patch
+
 # install the PHP extensions we need
 RUN set -eux; \
 	\
