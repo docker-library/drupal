@@ -84,30 +84,34 @@ for version in "${versions[@]}"; do
 	export fullVersion
 	json="$(
 		jq <<<"$json" -c --argjson doc "$doc" '
-			.[env.version] = {
-				version: env.fullVersion,
-				variants: [
+			.[env.version] = (
+				{
+					version: env.fullVersion,
+					phpVersions: (
+						# https://www.drupal.org/docs/system-requirements/php-requirements
+						# https://www.drupal.org/docs/7/system-requirements/php-requirements
+						if env.version == "7" then
+							[ "8.0" ]
+						elif env.version | startswith("9.") then
+							[ "8.1", "8.0" ]
+						else
+							# https://www.drupal.org/node/3264830
+							# Require PHP 8.1 for Drupal 10
+							[ "8.2", "8.1" ]
+						end
+					),
+				} + $doc
+				| .variants = [
 					"bullseye",
 					"buster",
+					"alpine3.18",
 					"alpine3.17",
-					"alpine3.16"
+					if .phpVersions | index("8.0") then "alpine3.16" else empty end, # https://github.com/docker-library/php/blob/0a68eaa2d3a269079c687e55abc960c77d3a134e/versions.sh#L94-L101
+					empty
 					| if startswith("alpine") then empty else "apache-" + . end,
 						"fpm-" + .
-				],
-				phpVersions: (
-					# https://www.drupal.org/docs/system-requirements/php-requirements
-					# https://www.drupal.org/docs/7/system-requirements/php-requirements
-					if env.version == "7" then
-						[ "8.0" ]
-					elif env.version | startswith("9.") then
-						[ "8.1", "8.0" ]
-					else
-						# https://www.drupal.org/node/3264830
-						# Require PHP 8.1 for Drupal 10
-						[ "8.2", "8.1" ]
-					end
-				),
-			} + $doc
+				]
+			)
 		'
 	)"
 done
