@@ -102,8 +102,9 @@ for version in "${versions[@]}"; do
 					),
 				} + $doc
 				| .variants = [
+					"bookworm",
 					"bullseye",
-					"buster",
+					if .phpVersions | index("8.0") then "buster" else empty end, # https://github.com/docker-library/php/blob/86b8b13760c7d7c6120fb635f6a1c84b22f33386/versions.sh#L99-L105
 					"alpine3.18",
 					"alpine3.17",
 					if .phpVersions | index("8.0") then "alpine3.16" else empty end, # https://github.com/docker-library/php/blob/0a68eaa2d3a269079c687e55abc960c77d3a134e/versions.sh#L94-L101
