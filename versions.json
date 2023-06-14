@@ -8,10 +8,10 @@
       "8.1"
     ],
     "variants": [
+      "apache-bookworm",
+      "fpm-bookworm",
       "apache-bullseye",
       "fpm-bullseye",
-      "apache-buster",
-      "fpm-buster",
       "fpm-alpine3.18",
       "fpm-alpine3.17"
     ],
@@ -20,9 +20,13 @@
   "7": {
     "md5": "4139f0feecb44a53645242194809b73a",
     "phpVersions": [
+      "8.2",
+      "8.1",
       "8.0"
     ],
     "variants": [
+      "apache-bookworm",
+      "fpm-bookworm",
       "apache-bullseye",
       "fpm-bullseye",
       "apache-buster",
@@ -38,10 +42,13 @@
       "version": "2"
     },
     "phpVersions": [
+      "8.2",
       "8.1",
       "8.0"
     ],
     "variants": [
+      "apache-bookworm",
+      "fpm-bookworm",
       "apache-bullseye",
       "fpm-bullseye",
       "apache-buster",
@@ -57,10 +64,13 @@
       "version": "2"
     },
     "phpVersions": [
+      "8.2",
       "8.1",
       "8.0"
     ],
     "variants": [
+      "apache-bookworm",
+      "fpm-bookworm",
       "apache-bullseye",
       "fpm-bullseye",
       "apache-buster",
