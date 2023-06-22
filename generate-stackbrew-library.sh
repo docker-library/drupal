@@ -7,7 +7,7 @@ declare -A aliases=(
 	[10.1-rc]='rc'
 )
 
-defaultDebianSuite='bullseye'
+defaultDebianSuite='bookworm'
 declare -A debianSuites=(
 	#[9.2]='buster'
 )
