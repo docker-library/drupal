@@ -5,9 +5,6 @@
 # from https://www.drupal.org/docs/system-requirements/php-requirements
 FROM php:{{ env.phpVersion }}-{{ env.variant }}
 
-# Needed for Composer patches.
-RUN apk add patch
-
 # install the PHP extensions we need
 RUN set -eux; \
 	\
@@ -88,8 +85,12 @@ RUN { \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
 {{ if env.version | startswith("7") then "" else ( -}}
-COPY --from=composer:{{ .composer.version }} /usr/bin/composer /usr/local/bin/
-
+	COPY --from=composer:{{ .composer.version }} /usr/bin/composer /usr/local/bin/
+	{{ if is_alpine then ( -}}
+		apk add --no-cache --virtual .build-deps \
+		# Needed for Composer patches.
+			patch
+	{{ ) end -}}
 {{ ) end -}}
 # https://www.drupal.org/node/3060/release
 ENV DRUPAL_VERSION {{ .version }}
