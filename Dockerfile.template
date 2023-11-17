@@ -1,3 +1,4 @@
+{{ include ".template-helper-functions" -}}
 {{
 	def is_alpine:
 		env.variant | index("alpine")
@@ -109,7 +110,35 @@ RUN set -eux; \
 	rmdir /var/www/html; \
 	ln -sf /opt/drupal/web /var/www/html; \
 	# delete composer cache
-	rm -rf "$COMPOSER_HOME"
+	rm -rf "$COMPOSER_HOME"; \
+	# TODO: Use the composer image attestation when available
+	echo {{
+		{
+			name: "composer",
+			version: .composer.version,
+			params: {
+				os_name: (if is_alpine then "alpine" else "debian" end),
+				os_version: env.variant | ltrimstr("alpine")
+			},
+			licenses: [
+				"MIT"
+			]
+		} | sbom | tostring | @sh
+	}} > composer.spdx.json;\
+	# ---
+	echo {{
+		{
+			name: "drupal",
+			version: .version,
+			params: {
+				os_name: (if is_alpine then "alpine" else "debian" end),
+				os_version: env.variant | ltrimstr("alpine")
+			},
+			licenses: [
+				"GPL-2.0-or-later"
+			]
+		} | sbom | tostring | @sh
+	}} > drupal.spdx.json;
 
 ENV PATH=${PATH}:/opt/drupal/vendor/bin
 {{ ) end -}}

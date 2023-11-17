@@ -66,7 +66,11 @@ RUN set -eux; \
 	rmdir /var/www/html; \
 	ln -sf /opt/drupal/web /var/www/html; \
 	# delete composer cache
-	rm -rf "$COMPOSER_HOME"
+	rm -rf "$COMPOSER_HOME"; \
+	# TODO: Use the composer image attestation when available
+	echo '{"spdxVersion":"SPDX-2.3","SPDXID":"SPDXRef-DOCUMENT","name":"composer-sbom","packages":[{"name":"composer","versionInfo":"2","SPDXID":"SPDXRef-Package--composer","externalRefs":[{"referenceCategory":"PACKAGE-MANAGER","referenceType":"purl","referenceLocator":"pkg:generic/composer@2?os_name=alpine&os_version=fpm-alpine3.17"}],"licenseDeclared":"MIT"}]}' > composer.spdx.json;\
+	# ---
+	echo '{"spdxVersion":"SPDX-2.3","SPDXID":"SPDXRef-DOCUMENT","name":"drupal-sbom","packages":[{"name":"drupal","versionInfo":"9.5.11","SPDXID":"SPDXRef-Package--drupal","externalRefs":[{"referenceCategory":"PACKAGE-MANAGER","referenceType":"purl","referenceLocator":"pkg:generic/drupal@9.5.11?os_name=alpine&os_version=fpm-alpine3.17"}],"licenseDeclared":"GPL-2.0-or-later"}]}' > drupal.spdx.json;
 
 ENV PATH=${PATH}:/opt/drupal/vendor/bin
 
