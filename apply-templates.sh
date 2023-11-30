@@ -43,20 +43,6 @@ for version; do
 		for variant in "${variants[@]}"; do
 			export variant
 
-			# https://github.com/docker-library/php/blob/86b8b13760c7d7c6120fb635f6a1c84b22f33386/versions.sh#L99-L105
-			if [ "$phpVersion" = '8.0' ] && [[ "$variant" = *-'bookworm' ]]; then
-				continue
-			elif [ "$phpVersion" != '8.0' ] &&  [[ "$variant" = *-'buster' ]]; then
-				continue
-			fi
-			# https://github.com/docker-library/php/blob/0a68eaa2d3a269079c687e55abc960c77d3a134e/versions.sh#L94-L101
-			if [[ "$variant" = *-'alpine3.16' ]] && [ "$phpVersion" != '8.0' ]; then
-				continue
-			fi
-			if [ "$phpVersion" = '8.0' ] && [[ "$variant" = *-alpine* ]] && [[ "$variant" != *-'alpine3.16' ]]; then
-				continue
-			fi
-
 			dir="$version/php$phpVersion/$variant"
 			mkdir -p "$dir"
 
