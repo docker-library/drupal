@@ -39,19 +39,15 @@
     "md5": "4139f0feecb44a53645242194809b73a",
     "phpVersions": [
       "8.2",
-      "8.1",
-      "8.0"
+      "8.1"
     ],
     "variants": [
       "apache-bookworm",
       "fpm-bookworm",
       "apache-bullseye",
       "fpm-bullseye",
-      "apache-buster",
-      "fpm-buster",
       "fpm-alpine3.18",
-      "fpm-alpine3.17",
-      "fpm-alpine3.16"
+      "fpm-alpine3.17"
     ],
     "version": "7.98"
   },
@@ -61,19 +57,15 @@
     },
     "phpVersions": [
       "8.2",
-      "8.1",
-      "8.0"
+      "8.1"
     ],
     "variants": [
       "apache-bookworm",
       "fpm-bookworm",
       "apache-bullseye",
       "fpm-bullseye",
-      "apache-buster",
-      "fpm-buster",
       "fpm-alpine3.18",
-      "fpm-alpine3.17",
-      "fpm-alpine3.16"
+      "fpm-alpine3.17"
     ],
     "version": "9.5.11"
   }
