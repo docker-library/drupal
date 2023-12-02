@@ -11,7 +11,8 @@ FROM php:8.2-apache-bookworm
 RUN set -eux; \
 	\
 	if command -v a2enmod; then \
-		a2enmod rewrite; \
+# https://github.com/drupal/drupal/blob/d91d8d0a6d3ffe5f0b6dde8c2fbe81404843edc5/.htaccess (references both mod_expires and mod_rewrite explicitly)
+		a2enmod expires rewrite; \
 	fi; \
 	\
 	savedAptMark="$(apt-mark showmanual)"; \
