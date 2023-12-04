@@ -29,8 +29,8 @@ for version in "${versions[@]}"; do
 			drupalRelease="${rcVersion%%.*}.x"
 			;;
 		*)
-			# there is no https://updates.drupal.org/release-history/drupal/9.x
-			# (07/2020) current could also be used for 8.9, 9.x
+			# there is no https://updates.drupal.org/release-history/drupal/10.x
+			# (12/2023) current can be used for 10.x: "<supported_branches>10.0.,10.1.,10.2.</supported_branches>"
 			drupalRelease='current'
 			;;
 	esac
