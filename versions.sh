@@ -29,8 +29,8 @@ for version in "${versions[@]}"; do
 			drupalRelease="${rcVersion%%.*}.x"
 			;;
 		*)
-			# there is no https://updates.drupal.org/release-history/drupal/9.x
-			# (07/2020) current could also be used for 8.9, 9.x
+			# there is no https://updates.drupal.org/release-history/drupal/10.x
+			# (12/2023) current can be used for 10.x: "<supported_branches>10.0.,10.1.,10.2.</supported_branches>"
 			drupalRelease='current'
 			;;
 	esac
@@ -89,8 +89,11 @@ for version in "${versions[@]}"; do
 					version: env.fullVersion,
 					phpVersions: (
 						[
+							# https://www.drupal.org/project/drupal/releases/10.2.0-rc1#php-deps
+							# Drupal now supports PHP 8.3 and recommends at least PHP 8.2.
+							if [ "7", "10.0", "10.1" ] | index(env.version) then empty else "8.3" end,
 							"8.2",
-							"8.1",
+							if [ "7", "10.0", "10.1" ] | index(env.version) then "8.1" else empty end,
 							# https://www.drupal.org/docs/system-requirements/php-requirements
 							# https://www.drupal.org/docs/7/system-requirements/php-requirements
 							empty
