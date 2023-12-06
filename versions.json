@@ -54,7 +54,7 @@
     "version": "10.2.0-rc1"
   },
   "7": {
-    "md5": "4139f0feecb44a53645242194809b73a",
+    "md5": "0fbcb06e354309356e6b4e33d2cd242d",
     "phpVersions": [
       "8.2",
       "8.1"
@@ -67,6 +67,6 @@
       "fpm-alpine3.18",
       "fpm-alpine3.17"
     ],
-    "version": "7.98"
+    "version": "7.99"
   }
 }
