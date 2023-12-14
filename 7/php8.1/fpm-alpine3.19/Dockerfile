@@ -5,7 +5,7 @@
 #
 
 # from https://www.drupal.org/docs/system-requirements/php-requirements
-FROM php:8.2-fpm-alpine3.17
+FROM php:8.1-fpm-alpine3.19
 
 # install the PHP extensions we need
 RUN set -eux; \
@@ -53,21 +53,15 @@ RUN { \
 		echo 'opcache.revalidate_freq=60'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
-COPY --from=composer:2 /usr/bin/composer /usr/local/bin/
-
 # https://www.drupal.org/node/3060/release
-ENV DRUPAL_VERSION 10.1.7
+ENV DRUPAL_VERSION 7.99
+ENV DRUPAL_MD5 0fbcb06e354309356e6b4e33d2cd242d
 
-WORKDIR /opt/drupal
 RUN set -eux; \
-	export COMPOSER_HOME="$(mktemp -d)"; \
-	composer create-project --no-interaction "drupal/recommended-project:$DRUPAL_VERSION" ./; \
-	chown -R www-data:www-data web/sites web/modules web/themes; \
-	rmdir /var/www/html; \
-	ln -sf /opt/drupal/web /var/www/html; \
-	# delete composer cache
-	rm -rf "$COMPOSER_HOME"
-
-ENV PATH=${PATH}:/opt/drupal/vendor/bin
+	curl -fSL "https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o drupal.tar.gz; \
+	echo "${DRUPAL_MD5} *drupal.tar.gz" | md5sum -c -; \
+	tar -xz --strip-components=1 -f drupal.tar.gz; \
+	rm drupal.tar.gz; \
+	chown -R www-data:www-data sites modules themes
 
 # vim:set ft=dockerfile:
