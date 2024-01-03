@@ -4,8 +4,8 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-# from https://www.drupal.org/docs/system-requirements/php-requirements
-FROM php:8.2-apache-bullseye
+# https://www.drupal.org/docs/system-requirements/php-requirements
+FROM php:8.3-apache-bullseye
 
 # install the PHP extensions we need
 RUN set -eux; \
@@ -66,8 +66,8 @@ RUN { \
 
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/
 
-# https://www.drupal.org/node/3060/release
-ENV DRUPAL_VERSION 10.2.0-rc1
+# 2023-12-15: https://www.drupal.org/project/drupal/releases/10.2.0
+ENV DRUPAL_VERSION 10.2.0
 
 WORKDIR /opt/drupal
 RUN set -eux; \

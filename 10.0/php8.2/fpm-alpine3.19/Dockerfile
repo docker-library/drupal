@@ -4,7 +4,7 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-# from https://www.drupal.org/docs/system-requirements/php-requirements
+# https://www.drupal.org/docs/system-requirements/php-requirements
 FROM php:8.2-fpm-alpine3.19
 
 # install the PHP extensions we need
@@ -55,7 +55,7 @@ RUN { \
 
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/
 
-# https://www.drupal.org/node/3060/release
+# 2023-09-20: https://www.drupal.org/project/drupal/releases/10.0.11
 ENV DRUPAL_VERSION 10.0.11
 
 WORKDIR /opt/drupal
