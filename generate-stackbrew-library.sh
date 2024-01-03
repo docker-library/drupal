@@ -2,8 +2,8 @@
 set -Eeuo pipefail
 
 declare -A aliases=(
-	[10.1]='10 latest'
-	[10.2-rc]='rc'
+	[10.2]='10 latest'
+	[10.3-rc]='rc'
 )
 
 defaultDebianSuite='bookworm'
@@ -108,12 +108,15 @@ join() {
 for version; do
 	export version
 
+	if ! fullVersion="$(jq -er '.[env.version] | if . then .version else empty end' versions.json)"; then
+		continue
+	fi
+
 	phpVersions="$(jq -r '.[env.version].phpVersions | map(@sh) | join(" ")' versions.json)"
 	eval "phpVersions=( $phpVersions )"
 	variants="$(jq -r '.[env.version].variants | map(@sh) | join(" ")' versions.json)"
 	eval "variants=( $variants )"
 
-	fullVersion="$(jq -r '.[env.version].version' versions.json)"
 	latestAlpineVersion="$(jq -r '.[env.version].variants[] | ltrimstr("fpm-") | select(startswith("alpine")) | ltrimstr("alpine")' versions.json | sort -rV | head -1)"
 	debianSuite="${debianSuites[$version]:-$defaultDebianSuite}"
 	versionDefaultPhpVersion="${defaultPhpVersions[$version]:-$defaultPhpVersion}"

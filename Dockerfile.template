@@ -2,7 +2,7 @@
 	def is_alpine:
 		env.variant | index("alpine")
 -}}
-# from https://www.drupal.org/docs/system-requirements/php-requirements
+# https://www.drupal.org/docs/system-requirements/php-requirements
 FROM php:{{ env.phpVersion }}-{{ env.variant }}
 
 # install the PHP extensions we need
@@ -85,22 +85,13 @@ RUN { \
 		echo 'opcache.revalidate_freq=60'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
-{{ if env.version | startswith("7") then "" else ( -}}
+{{ if has("composer") then ( -}}
 COPY --from=composer:{{ .composer.version }} /usr/bin/composer /usr/local/bin/
 
-{{ ) end -}}
-# https://www.drupal.org/node/3060/release
+{{ ) else "" end -}}
+# {{ .date | strftime("%Y-%m-%d") }}: {{ .notes }}
 ENV DRUPAL_VERSION {{ .version }}
-{{ if env.version | startswith("7") then ( -}}
-ENV DRUPAL_MD5 {{ .md5 }}
-
-RUN set -eux; \
-	curl -fSL "https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o drupal.tar.gz; \
-	echo "${DRUPAL_MD5} *drupal.tar.gz" | md5sum -c -; \
-	tar -xz --strip-components=1 -f drupal.tar.gz; \
-	rm drupal.tar.gz; \
-	chown -R www-data:www-data sites modules themes
-{{ ) else ( -}}
+{{ if has("composer") then ( -}}
 
 WORKDIR /opt/drupal
 RUN set -eux; \
@@ -113,6 +104,16 @@ RUN set -eux; \
 	rm -rf "$COMPOSER_HOME"
 
 ENV PATH=${PATH}:/opt/drupal/vendor/bin
+{{ ) else ( -}}
+ENV DRUPAL_URL {{ .url }}
+ENV DRUPAL_MD5 {{ .md5 }}
+
+RUN set -eux; \
+	curl -fSL "$DRUPAL_URL" -o drupal.tar.gz; \
+	echo "${DRUPAL_MD5} *drupal.tar.gz" | md5sum -c -; \
+	tar -xz --strip-components=1 -f drupal.tar.gz; \
+	rm drupal.tar.gz; \
+	chown -R www-data:www-data sites modules themes
 {{ ) end -}}
 
 # vim:set ft=dockerfile:

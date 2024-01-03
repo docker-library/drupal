@@ -4,7 +4,7 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-# from https://www.drupal.org/docs/system-requirements/php-requirements
+# https://www.drupal.org/docs/system-requirements/php-requirements
 FROM php:8.2-fpm-bullseye
 
 # install the PHP extensions we need
@@ -64,12 +64,13 @@ RUN { \
 		echo 'opcache.revalidate_freq=60'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
-# https://www.drupal.org/node/3060/release
+# 2023-12-06: https://www.drupal.org/project/drupal/releases/7.99
 ENV DRUPAL_VERSION 7.99
+ENV DRUPAL_URL https://ftp.drupal.org/files/projects/drupal-7.99.tar.gz
 ENV DRUPAL_MD5 0fbcb06e354309356e6b4e33d2cd242d
 
 RUN set -eux; \
-	curl -fSL "https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o drupal.tar.gz; \
+	curl -fSL "$DRUPAL_URL" -o drupal.tar.gz; \
 	echo "${DRUPAL_MD5} *drupal.tar.gz" | md5sum -c -; \
 	tar -xz --strip-components=1 -f drupal.tar.gz; \
 	rm drupal.tar.gz; \

@@ -4,7 +4,7 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-# from https://www.drupal.org/docs/system-requirements/php-requirements
+# https://www.drupal.org/docs/system-requirements/php-requirements
 FROM php:8.2-fpm-bullseye
 
 # install the PHP extensions we need
@@ -66,7 +66,7 @@ RUN { \
 
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/
 
-# https://www.drupal.org/node/3060/release
+# 2023-12-06: https://www.drupal.org/project/drupal/releases/10.1.7
 ENV DRUPAL_VERSION 10.1.7
 
 WORKDIR /opt/drupal
