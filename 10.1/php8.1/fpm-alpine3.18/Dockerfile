@@ -55,8 +55,8 @@ RUN { \
 
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/
 
-# 2023-12-06: https://www.drupal.org/project/drupal/releases/10.1.7
-ENV DRUPAL_VERSION 10.1.7
+# 2024-01-17: https://www.drupal.org/project/drupal/releases/10.1.8
+ENV DRUPAL_VERSION 10.1.8
 
 WORKDIR /opt/drupal
 RUN set -eux; \
