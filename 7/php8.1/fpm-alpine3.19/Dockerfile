@@ -53,10 +53,10 @@ RUN { \
 		echo 'opcache.revalidate_freq=60'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
-# 2023-12-06: https://www.drupal.org/project/drupal/releases/7.99
-ENV DRUPAL_VERSION 7.99
-ENV DRUPAL_URL https://ftp.drupal.org/files/projects/drupal-7.99.tar.gz
-ENV DRUPAL_MD5 0fbcb06e354309356e6b4e33d2cd242d
+# 2024-03-06: https://www.drupal.org/project/drupal/releases/7.100
+ENV DRUPAL_VERSION 7.100
+ENV DRUPAL_URL https://ftp.drupal.org/files/projects/drupal-7.100.tar.gz
+ENV DRUPAL_MD5 e1e0963944555bee14bf54af5467192a
 
 RUN set -eux; \
 	curl -fSL "$DRUPAL_URL" -o drupal.tar.gz; \
