@@ -1,10 +1,10 @@
 {
   "10.2": {
-    "version": "10.2.5",
-    "url": "https://ftp.drupal.org/files/projects/drupal-10.2.5.tar.gz",
-    "md5": "b37ec5755df00f89528881fa9c8cfac5",
-    "date": 1712130945,
-    "notes": "https://www.drupal.org/project/drupal/releases/10.2.5",
+    "version": "10.2.6",
+    "url": "https://ftp.drupal.org/files/projects/drupal-10.2.6.tar.gz",
+    "md5": "0826eb03f18db538f181bae4248e38ce",
+    "date": 1714597701,
+    "notes": "https://www.drupal.org/project/drupal/releases/10.2.6",
     "phpVersions": [
       "8.3",
       "8.2"
