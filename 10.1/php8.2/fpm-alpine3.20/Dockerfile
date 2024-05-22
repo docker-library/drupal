@@ -5,7 +5,7 @@
 #
 
 # https://www.drupal.org/docs/system-requirements/php-requirements
-FROM php:8.1-fpm-alpine3.18
+FROM php:8.2-fpm-alpine3.20
 
 # install the PHP extensions we need
 RUN set -eux; \

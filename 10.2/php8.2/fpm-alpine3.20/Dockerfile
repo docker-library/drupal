@@ -5,7 +5,7 @@
 #
 
 # https://www.drupal.org/docs/system-requirements/php-requirements
-FROM php:8.1-fpm-alpine3.18
+FROM php:8.2-fpm-alpine3.20
 
 # install the PHP extensions we need
 RUN set -eux; \
@@ -53,16 +53,28 @@ RUN { \
 		echo 'opcache.revalidate_freq=60'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
-# 2024-03-06: https://www.drupal.org/project/drupal/releases/7.100
-ENV DRUPAL_VERSION 7.100
-ENV DRUPAL_URL https://ftp.drupal.org/files/projects/drupal-7.100.tar.gz
-ENV DRUPAL_MD5 e1e0963944555bee14bf54af5467192a
+COPY --from=composer:2 /usr/bin/composer /usr/local/bin/
 
+# 2024-05-01: https://www.drupal.org/project/drupal/releases/10.2.6
+ENV DRUPAL_VERSION 10.2.6
+
+# https://github.com/docker-library/drupal/pull/259
+# https://github.com/moby/buildkit/issues/4503
+# https://github.com/composer/composer/issues/11839
+# https://github.com/composer/composer/issues/11854
+# https://github.com/composer/composer/blob/94fe2945456df51e122a492b8d14ac4b54c1d2ce/src/Composer/Console/Application.php#L217-L218
+ENV COMPOSER_ALLOW_SUPERUSER 1
+
+WORKDIR /opt/drupal
 RUN set -eux; \
-	curl -fSL "$DRUPAL_URL" -o drupal.tar.gz; \
-	echo "${DRUPAL_MD5} *drupal.tar.gz" | md5sum -c -; \
-	tar -xz --strip-components=1 -f drupal.tar.gz; \
-	rm drupal.tar.gz; \
-	chown -R www-data:www-data sites modules themes
+	export COMPOSER_HOME="$(mktemp -d)"; \
+	composer create-project --no-interaction "drupal/recommended-project:$DRUPAL_VERSION" ./; \
+	chown -R www-data:www-data web/sites web/modules web/themes; \
+	rmdir /var/www/html; \
+	ln -sf /opt/drupal/web /var/www/html; \
+	# delete composer cache
+	rm -rf "$COMPOSER_HOME"
+
+ENV PATH=${PATH}:/opt/drupal/vendor/bin
 
 # vim:set ft=dockerfile:
