@@ -3,7 +3,7 @@ set -Eeuo pipefail
 
 declare -A aliases=(
 	[10.2]='10 latest'
-	[10.3-rc]='rc'
+	[11.0-rc]='rc'
 )
 
 defaultDebianSuite='bookworm'
