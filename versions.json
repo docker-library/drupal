@@ -90,11 +90,11 @@
     }
   },
   "7": {
-    "version": "7.100",
-    "url": "https://ftp.drupal.org/files/projects/drupal-7.100.tar.gz",
-    "md5": "e1e0963944555bee14bf54af5467192a",
-    "date": 1709734544,
-    "notes": "https://www.drupal.org/project/drupal/releases/7.100",
+    "version": "7.101",
+    "url": "https://ftp.drupal.org/files/projects/drupal-7.101.tar.gz",
+    "md5": "ddcd8cb4e885ae865a3d1a8b06707a67",
+    "date": 1717606635,
+    "notes": "https://www.drupal.org/project/drupal/releases/7.101",
     "phpVersions": [
       "8.2",
       "8.1"
