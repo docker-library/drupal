@@ -22,7 +22,6 @@
     }
   },
   "11.0": null,
-  "10.3-rc": null,
   "10.3": {
     "version": "10.3.0",
     "url": "https://ftp.drupal.org/files/projects/drupal-10.3.0.tar.gz",
@@ -67,7 +66,6 @@
       "version": "2"
     }
   },
-  "10.1": null,
   "7": {
     "version": "7.101",
     "url": "https://ftp.drupal.org/files/projects/drupal-7.101.tar.gz",
