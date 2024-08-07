@@ -1,5 +1,4 @@
 {
-  "11.0-rc": null,
   "11.0": {
     "version": "11.0.0",
     "url": "https://ftp.drupal.org/files/projects/drupal-11.0.0.tar.gz",
@@ -7,8 +6,7 @@
     "date": 1722578454,
     "notes": "https://www.drupal.org/project/drupal/releases/11.0.0",
     "phpVersions": [
-      "8.3",
-      "8.2"
+      "8.3"
     ],
     "variants": [
       "apache-bookworm",
