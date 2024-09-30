@@ -77,14 +77,15 @@ gawkParents='
 
 getArches() {
 	local repo="$1"; shift
+	local officialImagesBase="${BASHBREW_LIBRARY:-https://github.com/docker-library/official-images/raw/HEAD/library}/"
 
 	local parentRepoToArchesStr
 	parentRepoToArchesStr="$(
 		find -name 'Dockerfile' -exec gawk "$gawkParents" '{}' + \
 			| sort -u \
-			| gawk -v officialImagesUrl='https://github.com/docker-library/official-images/raw/master/library/' '
+			| gawk -v officialImagesBase="$officialImagesBase" '
 				$1 !~ /^('"$repo"'|scratch|.*\/.*)(:|$)/ {
-					printf "%s%s\n", officialImagesUrl, $1
+					printf "%s%s\n", officialImagesBase, $1
 				}
 			' \
 			| xargs -r bashbrew cat --format '["{{ .RepoName }}:{{ .TagName }}"]="{{ join " " .TagEntry.Architectures }}"'
