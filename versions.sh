@@ -61,7 +61,7 @@ releases="$(
 				# add a key for the appropriate "X.Y" or "X.Y-rc" value
 				| .folder = (.version | ([ split("[.-]"; "") | if .[0] == "7" then .[0] else .[0,1] end ] | join(".")) + if index("-") then "-rc" else "" end)
 				# filter to *just* versions that the upstream file claims are actually supported ("supported_branches")
-				| select((.folder | rtrimstr("-rc")) as $ver | $versions | index($ver) | not|not)
+				| select((.folder | rtrimstr("-rc")) | IN($versions[]) | not|not)
 			) as $rel ({}; .[$rel.version] = $rel)
 			| to_entries
 			# put all releases in sorted order
@@ -116,14 +116,14 @@ for version in "${versions[@]}"; do
 				[
 					# https://www.drupal.org/project/drupal/releases/10.2.0-rc1#php-deps
 					# Drupal now supports PHP 8.3 and recommends at least PHP 8.2.
-					if [ "7", "10.0" ] | index(env.version) then empty else
+					if env.version | IN("7", "10.0") then empty else
 						"8.3"
 					end,
 					# https://www.drupal.org/node/3413288 ("Drupal 11 will require PHP 8.3")
-					if [ "7", "10.0", "10.2", "10.3" ] | index(env.version) then
+					if env.version | IN("7", "10.0", "10.2", "10.3") then
 						"8.2"
 					else empty end,
-					if [ "7", "10.0" ] | index(env.version) then
+					if env.version | IN("7", "10.0") then
 						"8.1"
 					else empty end,
 					# https://www.drupal.org/docs/system-requirements/php-requirements
