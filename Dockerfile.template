@@ -51,6 +51,12 @@ RUN set -eux; \
 		zip \
 	; \
 	\
+	# kelvtech-co-uk 18th Oct 2024 - Proposed resolution to the missing drupal features noted in the 'Status Report' following a clean install of the image.
+	pecl install apcu; \
+	echo 'extension=apcu.so' > /usr/local/etc/php/conf.d/docker-php-apcu.ini; \
+	echo 'output_buffering=on' > /usr/local/etc/php/conf.d/docker-php-output-buffering.ini; \
+	# End of PR	
+	\
 {{ if is_alpine then ( -}}
 	runDeps="$( \
 		scanelf --needed --nobanner --format '%n#p' --recursive /usr/local \
