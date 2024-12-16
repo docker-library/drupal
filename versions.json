@@ -20,7 +20,27 @@
       "version": "2"
     }
   },
-  "11.1": null,
+  "11.1": {
+    "version": "11.1.0",
+    "url": "https://ftp.drupal.org/files/projects/drupal-11.1.0.tar.gz",
+    "md5": "7459cb5f95451d032e0f3c906da9f855",
+    "date": 1734369672,
+    "notes": "https://www.drupal.org/project/drupal/releases/11.1.0",
+    "phpVersions": [
+      "8.3"
+    ],
+    "variants": [
+      "apache-bookworm",
+      "fpm-bookworm",
+      "apache-bullseye",
+      "fpm-bullseye",
+      "fpm-alpine3.21",
+      "fpm-alpine3.20"
+    ],
+    "composer": {
+      "version": "2"
+    }
+  },
   "11.0": {
     "version": "11.0.9",
     "url": "https://ftp.drupal.org/files/projects/drupal-11.0.9.tar.gz",
