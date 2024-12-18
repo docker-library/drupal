@@ -86,28 +86,7 @@
       "version": "2"
     }
   },
-  "10.2": {
-    "version": "10.2.12",
-    "url": "https://ftp.drupal.org/files/projects/drupal-10.2.12.tar.gz",
-    "md5": "cca46447cf802d5e7286ac15552e2c7a",
-    "date": 1732281201,
-    "notes": "https://www.drupal.org/project/drupal/releases/10.2.12",
-    "phpVersions": [
-      "8.3",
-      "8.2"
-    ],
-    "variants": [
-      "apache-bookworm",
-      "fpm-bookworm",
-      "apache-bullseye",
-      "fpm-bullseye",
-      "fpm-alpine3.21",
-      "fpm-alpine3.20"
-    ],
-    "composer": {
-      "version": "2"
-    }
-  },
+  "10.2": null,
   "7": {
     "version": "7.103",
     "url": "https://ftp.drupal.org/files/projects/drupal-7.103.tar.gz",
