@@ -120,7 +120,7 @@ for version in "${versions[@]}"; do
 						"8.3"
 					end,
 					# https://www.drupal.org/node/3413288 ("Drupal 11 will require PHP 8.3")
-					if env.version | IN("7", "10.0", "10.2", "10.3") then
+					if env.version | IN("7", "10.0", "10.3") then
 						"8.2"
 					else empty end,
 					if env.version | IN("7", "10.0") then
