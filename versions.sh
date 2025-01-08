@@ -26,7 +26,7 @@ else
 fi
 
 releases="$(
-	wget -qO- 'https://updates.drupal.org/release-history/drupal/current' 'https://updates.drupal.org/release-history/drupal/7.x' \
+	wget -qO- 'https://updates.drupal.org/release-history/drupal/current' \
 		| $yq -r '@json' \
 		| jq -c '
 			# https://stackoverflow.com/a/75770668/433558
@@ -36,19 +36,16 @@ releases="$(
 				| map(split(".") | map(tonumber? // .))
 				| .[1] |= (. // {})
 			;
-			[ .project | if type == "array" then .[] else . end ] # normalize to an array, even if we only fetch one URL (not both "current" and "7.x" -- otherwise this can just be ".project" and we can drop the ".[]"s below)
-			| (
-				[
-					.[]
-					| .supported_branches? // empty,
-						.supported_majors? // empty
-					| split(",")
-				]
-				| flatten
-				| map(rtrimstr("."))
-			) as $versions
+			.project
+			| [
+				.supported_branches? // empty,
+					.supported_majors? // empty
+				| split(",")
+				| .[]
+				| rtrimstr(".")
+			] as $versions
 			| reduce (
-				.[].releases.release[]
+				.releases.release[]
 				# skip "dev" releases entirely (download artifacts are too unstable / change too often)
 				| select(
 					.status == "published"
@@ -116,18 +113,17 @@ for version in "${versions[@]}"; do
 				[
 					# https://www.drupal.org/project/drupal/releases/10.2.0-rc1#php-deps
 					# Drupal now supports PHP 8.3 and recommends at least PHP 8.2.
-					if env.version | IN("7", "10.0") then empty else
+					if env.version | IN("10.0") then empty else
 						"8.3"
 					end,
 					# https://www.drupal.org/node/3413288 ("Drupal 11 will require PHP 8.3")
-					if env.version | IN("7", "10.0", "10.3") then
+					if env.version | IN("10.0", "10.3") then
 						"8.2"
 					else empty end,
-					if env.version | IN("7", "10.0") then
+					if env.version | IN("10.0") then
 						"8.1"
 					else empty end,
 					# https://www.drupal.org/docs/system-requirements/php-requirements
-					# https://www.drupal.org/docs/7/system-requirements/php-requirements
 					empty
 				]
 			),
@@ -168,7 +164,7 @@ for version in "${versions[@]}"; do
 			' \
 			|| :
 	)"
-	if [ "$rcVersion" != '7' ] && [ -z "$composerVersion" ]; then
+	if [ -z "$composerVersion" ]; then
 		echo >&2 "error: cannot find composer version for '$version' ('$fullVersion')"
 		exit 1
 	fi
