@@ -11,9 +11,12 @@ declare -A debianSuites=(
 	#[10.0]='bullseye'
 )
 
-defaultPhpVersion='php8.3'
+defaultPhpVersion='php8.4'
 declare -A defaultPhpVersions=(
 # releases older than 11 will conservatively stay on 8.2 by default
+	[11.1]='php8.3'
+	[11.0]='php8.3'
+	[10.4]='php8.3'
 	[10.3]='php8.2'
 # https://www.drupal.org/docs/system-requirements/php-requirements
 )

@@ -6,6 +6,7 @@
     "date": 1738796542,
     "notes": "https://www.drupal.org/project/drupal/releases/11.1.2",
     "phpVersions": [
+      "8.4",
       "8.3"
     ],
     "variants": [
@@ -48,6 +49,7 @@
     "date": 1738798328,
     "notes": "https://www.drupal.org/project/drupal/releases/10.4.2",
     "phpVersions": [
+      "8.4",
       "8.3"
     ],
     "variants": [
