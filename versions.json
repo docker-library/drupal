@@ -1,10 +1,10 @@
 {
   "11.1": {
-    "version": "11.1.5",
-    "url": "https://ftp.drupal.org/files/projects/drupal-11.1.5.tar.gz",
-    "md5": "7411355140798b10877987ac5c3457fe",
-    "date": 1742407823,
-    "notes": "https://www.drupal.org/project/drupal/releases/11.1.5",
+    "version": "11.1.6",
+    "url": "https://ftp.drupal.org/files/projects/drupal-11.1.6.tar.gz",
+    "md5": "8447e10b0d928f820d996d1a99f782ff",
+    "date": 1743628262,
+    "notes": "https://www.drupal.org/project/drupal/releases/11.1.6",
     "phpVersions": [
       "8.4",
       "8.3"
