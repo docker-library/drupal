@@ -14,8 +14,8 @@
       "fpm-bookworm",
       "apache-bullseye",
       "fpm-bullseye",
-      "fpm-alpine3.21",
-      "fpm-alpine3.20"
+      "fpm-alpine3.22",
+      "fpm-alpine3.21"
     ],
     "composer": {
       "version": "2"
@@ -37,8 +37,8 @@
       "fpm-bookworm",
       "apache-bullseye",
       "fpm-bullseye",
-      "fpm-alpine3.21",
-      "fpm-alpine3.20"
+      "fpm-alpine3.22",
+      "fpm-alpine3.21"
     ],
     "composer": {
       "version": "2"
@@ -58,8 +58,8 @@
       "fpm-bookworm",
       "apache-bullseye",
       "fpm-bullseye",
-      "fpm-alpine3.21",
-      "fpm-alpine3.20"
+      "fpm-alpine3.22",
+      "fpm-alpine3.21"
     ],
     "composer": {
       "version": "2"
@@ -80,8 +80,8 @@
       "fpm-bookworm",
       "apache-bullseye",
       "fpm-bullseye",
-      "fpm-alpine3.21",
-      "fpm-alpine3.20"
+      "fpm-alpine3.22",
+      "fpm-alpine3.21"
     ],
     "composer": {
       "version": "2"
@@ -103,8 +103,8 @@
       "fpm-bookworm",
       "apache-bullseye",
       "fpm-bullseye",
-      "fpm-alpine3.21",
-      "fpm-alpine3.20"
+      "fpm-alpine3.22",
+      "fpm-alpine3.21"
     ],
     "composer": {
       "version": "2"
@@ -125,8 +125,8 @@
       "fpm-bookworm",
       "apache-bullseye",
       "fpm-bullseye",
-      "fpm-alpine3.21",
-      "fpm-alpine3.20"
+      "fpm-alpine3.22",
+      "fpm-alpine3.21"
     ],
     "composer": {
       "version": "2"
