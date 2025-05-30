@@ -1,4 +1,27 @@
 {
+  "11.2-rc": {
+    "version": "11.2.0-beta1",
+    "url": "https://ftp.drupal.org/files/projects/drupal-11.2.0-beta1.tar.gz",
+    "md5": "e3274a061b21477602694d78457fc600",
+    "date": 1748016040,
+    "notes": "https://www.drupal.org/project/drupal/releases/11.2.0-beta1",
+    "phpVersions": [
+      "8.4",
+      "8.3"
+    ],
+    "variants": [
+      "apache-bookworm",
+      "fpm-bookworm",
+      "apache-bullseye",
+      "fpm-bullseye",
+      "fpm-alpine3.21",
+      "fpm-alpine3.20"
+    ],
+    "composer": {
+      "version": "2"
+    }
+  },
+  "11.2": null,
   "11.1": {
     "version": "11.1.7",
     "url": "https://ftp.drupal.org/files/projects/drupal-11.1.7.tar.gz",
@@ -42,6 +65,29 @@
       "version": "2"
     }
   },
+  "10.5-rc": {
+    "version": "10.5.0-beta1",
+    "url": "https://ftp.drupal.org/files/projects/drupal-10.5.0-beta1.tar.gz",
+    "md5": "f7d682d31e503a3f9161bc97616d4347",
+    "date": 1748162570,
+    "notes": "https://www.drupal.org/project/drupal/releases/10.5.0-beta1",
+    "phpVersions": [
+      "8.4",
+      "8.3"
+    ],
+    "variants": [
+      "apache-bookworm",
+      "fpm-bookworm",
+      "apache-bullseye",
+      "fpm-bullseye",
+      "fpm-alpine3.21",
+      "fpm-alpine3.20"
+    ],
+    "composer": {
+      "version": "2"
+    }
+  },
+  "10.5": null,
   "10.4": {
     "version": "10.4.7",
     "url": "https://ftp.drupal.org/files/projects/drupal-10.4.7.tar.gz",
