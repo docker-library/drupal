@@ -1,5 +1,4 @@
 {
-  "11.2-rc": null,
   "11.2": {
     "version": "11.2.0",
     "url": "https://ftp.drupal.org/files/projects/drupal-11.2.0.tar.gz",
@@ -44,8 +43,6 @@
       "version": "2"
     }
   },
-  "11.0": null,
-  "10.5-rc": null,
   "10.5": {
     "version": "10.5.0",
     "url": "https://ftp.drupal.org/files/projects/drupal-10.5.0.tar.gz",
@@ -89,6 +86,5 @@
     "composer": {
       "version": "2"
     }
-  },
-  "10.3": null
+  }
 }
