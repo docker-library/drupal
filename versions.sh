@@ -112,16 +112,10 @@ for version in "${versions[@]}"; do
 				# https://www.drupal.org/docs/system-requirements/php-requirements
 				[
 					# Drupal 11.1+ and 10.4+ support PHP 8.4
-					if env.version | IN("10.3", "11.0") then empty else
-						"8.4"
-					end,
+					"8.4",
 					# https://www.drupal.org/project/drupal/releases/10.2.0-rc1#php-deps
 					# Drupal supports PHP 8.3 and recommends at least PHP 8.2.
 					"8.3",
-					# https://www.drupal.org/node/3413288 ("Drupal 11 will require PHP 8.3")
-					if env.version | IN("10.3") then
-						"8.2"
-					else empty end,
 					# https://www.drupal.org/docs/system-requirements/php-requirements
 					empty
 				]
