@@ -94,13 +94,10 @@ RUN { \
 	} > /usr/local/etc/php/conf.d/docker-php-drupal-recommended.ini
 
 {{ ) end -}}
-{{ if has("composer") then ( -}}
 COPY --from=composer:{{ .composer.version }} /usr/bin/composer /usr/local/bin/
 
-{{ ) else "" end -}}
 # {{ .date | strftime("%Y-%m-%d") }}: {{ .notes }}
 ENV DRUPAL_VERSION {{ .version }}
-{{ if has("composer") then ( -}}
 
 # https://github.com/docker-library/drupal/pull/259
 # https://github.com/moby/buildkit/issues/4503
@@ -122,16 +119,5 @@ RUN set -eux; \
 	rm -rf "$COMPOSER_HOME"
 
 ENV PATH=${PATH}:/opt/drupal/vendor/bin
-{{ ) else ( -}}
-ENV DRUPAL_URL {{ .url }}
-ENV DRUPAL_MD5 {{ .md5 }}
-
-RUN set -eux; \
-	curl -fSL "$DRUPAL_URL" -o drupal.tar.gz; \
-	echo "${DRUPAL_MD5} *drupal.tar.gz" | md5sum -c -; \
-	tar -xz --strip-components=1 -f drupal.tar.gz; \
-	rm drupal.tar.gz; \
-	chown -R www-data:www-data sites modules themes
-{{ ) end -}}
 
 # vim:set ft=dockerfile:
