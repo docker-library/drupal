@@ -1,6 +1,17 @@
 {{
 	def is_alpine:
 		env.variant | index("alpine")
+	;
+	# The SQLite driver that's included in Drupal 11 core requires SQLite 3.45+.
+	# Alpine 3.21 is new enough
+	# https://pkgs.alpinelinux.org/package/v3.21/main/x86_64/sqlite-libs (3.48.0)
+	# Debian Bullseye and Bookworm are not new enough, but Trixie is
+	# https://packages.debian.org/bullseye/libsqlite3-0 (3.34.1)
+	# https://packages.debian.org/bookworm/libsqlite3-0 (3.40.1)
+	# https://packages.debian.org/trixie/libsqlite3-0 (3.46.1)
+	def needs_sqlite_compat:
+		(env.version | startswith("10.") | not)
+		and (env.variant | split("-")[1] | IN("bookworm", "bullseye"))
 -}}
 # https://www.drupal.org/docs/system-requirements/php-requirements
 FROM php:{{ env.phpVersion }}-{{ env.variant }}
@@ -112,6 +123,9 @@ RUN set -eux; \
 	composer create-project --no-interaction "drupal/recommended-project:$DRUPAL_VERSION" ./; \
 # https://github.com/docker-library/drupal/pull/266#issuecomment-2273985526
 	composer check-platform-reqs; \
+{{ if needs_sqlite_compat then ( -}}
+	composer require 'drupal/sqlite337:^1.0@alpha'; \
+{{ ) else "" end -}}
 	chown -R www-data:www-data web/sites web/modules web/themes; \
 	rmdir /var/www/html; \
 	ln -sf /opt/drupal/web /var/www/html; \

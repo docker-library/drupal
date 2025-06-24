@@ -89,6 +89,7 @@ RUN set -eux; \
 	composer create-project --no-interaction "drupal/recommended-project:$DRUPAL_VERSION" ./; \
 # https://github.com/docker-library/drupal/pull/266#issuecomment-2273985526
 	composer check-platform-reqs; \
+	composer require 'drupal/sqlite337:^1.0@alpha'; \
 	chown -R www-data:www-data web/sites web/modules web/themes; \
 	rmdir /var/www/html; \
 	ln -sf /opt/drupal/web /var/www/html; \
