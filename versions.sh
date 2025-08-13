@@ -121,8 +121,8 @@ for version in "${versions[@]}"; do
 				]
 			),
 			variants: [
+				"trixie",
 				"bookworm",
-				"bullseye",
 				"alpine3.22",
 				"alpine3.21",
 				empty
