@@ -65,8 +65,8 @@ RUN { \
 
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/
 
-# 2025-10-02: https://www.drupal.org/project/drupal/releases/11.2.5
-ENV DRUPAL_VERSION 11.2.5
+# 2025-11-06: https://www.drupal.org/project/drupal/releases/11.2.6
+ENV DRUPAL_VERSION 11.2.6
 
 # https://github.com/docker-library/drupal/pull/259
 # https://github.com/moby/buildkit/issues/4503
