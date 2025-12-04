@@ -5,7 +5,7 @@
 #
 
 # https://www.drupal.org/docs/system-requirements/php-requirements
-FROM php:8.3-fpm-alpine3.21
+FROM php:8.4-fpm-alpine3.23
 
 # install the PHP extensions we need
 RUN set -eux; \
@@ -54,8 +54,8 @@ RUN { \
 
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/
 
-# 2025-11-25: https://www.drupal.org/project/drupal/releases/10.6.0-beta1
-ENV DRUPAL_VERSION 10.6.0-beta1
+# 2025-11-12: https://www.drupal.org/project/drupal/releases/10.4.9
+ENV DRUPAL_VERSION 10.4.9
 
 # https://github.com/docker-library/drupal/pull/259
 # https://github.com/moby/buildkit/issues/4503
