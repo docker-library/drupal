@@ -1,10 +1,10 @@
 {
   "11.3-rc": {
-    "version": "11.3.0-beta1",
-    "url": "https://ftp.drupal.org/files/projects/drupal-11.3.0-beta1.tar.gz",
-    "md5": "7808ef12d1df429cc37a1d7771e0f361",
-    "date": 1764071187,
-    "notes": "https://www.drupal.org/project/drupal/releases/11.3.0-beta1",
+    "version": "11.3.0-rc1",
+    "url": "https://ftp.drupal.org/files/projects/drupal-11.3.0-rc1.tar.gz",
+    "md5": "5aca6c70015204b420d9ef2b7ad43517",
+    "date": 1764843586,
+    "notes": "https://www.drupal.org/project/drupal/releases/11.3.0-rc1",
     "phpVersions": [
       "8.4",
       "8.3"
