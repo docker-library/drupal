@@ -67,11 +67,11 @@
     }
   },
   "10.6-rc": {
-    "version": "10.6.0-beta1",
-    "url": "https://ftp.drupal.org/files/projects/drupal-10.6.0-beta1.tar.gz",
-    "md5": "68bd636fc6e4d28765a4918cbdd66b3f",
-    "date": 1764083058,
-    "notes": "https://www.drupal.org/project/drupal/releases/10.6.0-beta1",
+    "version": "10.6.0-rc1",
+    "url": "https://ftp.drupal.org/files/projects/drupal-10.6.0-rc1.tar.gz",
+    "md5": "48f25c38f60478fe7c3a16d7035eca1d",
+    "date": 1764842812,
+    "notes": "https://www.drupal.org/project/drupal/releases/10.6.0-rc1",
     "phpVersions": [
       "8.4",
       "8.3"
