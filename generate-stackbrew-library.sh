@@ -2,8 +2,8 @@
 set -Eeuo pipefail
 
 declare -A aliases=(
-	[11.2]='11 latest'
-	[10.5]='10'
+	[11.3]='11 latest'
+	[10.6]='10'
 )
 
 defaultDebianSuite='trixie'
