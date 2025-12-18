@@ -47,11 +47,11 @@
   "11.1": null,
   "10.6-rc": null,
   "10.6": {
-    "version": "10.6.0",
-    "url": "https://ftp.drupal.org/files/projects/drupal-10.6.0.tar.gz",
-    "md5": "4327768d3bc76a88ce979c5af46deee2",
-    "date": 1765965714,
-    "notes": "https://www.drupal.org/project/drupal/releases/10.6.0",
+    "version": "10.6.1",
+    "url": "https://ftp.drupal.org/files/projects/drupal-10.6.1.tar.gz",
+    "md5": "788a17d8a74ef96ce57a1052f0509c1e",
+    "date": 1766067020,
+    "notes": "https://www.drupal.org/project/drupal/releases/10.6.1",
     "phpVersions": [
       "8.4",
       "8.3"
