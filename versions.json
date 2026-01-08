@@ -50,7 +50,8 @@
     "date": 1767866420,
     "notes": "https://www.drupal.org/project/drupal/releases/10.6.2",
     "phpVersions": [
-      "8.4"
+      "8.4",
+      "8.3"
     ],
     "variants": [
       "apache-trixie",

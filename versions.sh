@@ -117,14 +117,13 @@ for version in "${versions[@]}"; do
 					end,
 					# Drupal 11.1+ and 10.4+ support PHP 8.4
 					"8.4",
-					# Drupal 11.3+ and 10.6+ recommend PHP 8.4
+					# Drupal 11.3+ and 10.6+ recommend PHP 8.4; keep 8.3 for 'existing' builds
+					# https://github.com/docker-library/drupal/pull/299
 					# https://www.drupal.org/project/drupal/releases/10.6.0#platform
 					# https://www.drupal.org/project/drupal/releases/11.3.0#platform
-					if env.version | IN("10.5", "11.2") then
+					if env.version | IN("10.5", "10.6", "11.2") then
 						"8.3"
-					else empty end,
-					# https://www.drupal.org/docs/system-requirements/php-requirements
-					empty
+					else empty end
 				]
 			),
 			variants: [
