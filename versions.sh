@@ -110,21 +110,25 @@ for version in "${versions[@]}"; do
 			# TODO adjust this in a way that is easier to manage over time (semi-automatic variant combinations, for example, based on availability/supported status of upstream PHP images)
 			phpVersions: (
 				# https://www.drupal.org/docs/system-requirements/php-requirements
-				[
+				[ limit(2;
+					# we support up to two PHP versions per Drupal version
+
 					# Drupal 11.3+ supports PHP 8.5
 					if env.version | IN("10.5", "10.6", "11.2") then empty else
 						"8.5"
 					end,
+
 					# Drupal 11.1+ and 10.4+ support PHP 8.4
 					"8.4",
+
 					# Drupal 11.3+ and 10.6+ recommend PHP 8.4; keep 8.3 for 'existing' builds
 					# https://github.com/docker-library/drupal/pull/299
 					# https://www.drupal.org/project/drupal/releases/10.6.0#platform
 					# https://www.drupal.org/project/drupal/releases/11.3.0#platform
-					if env.version | IN("10.5", "10.6", "11.2") then
-						"8.3"
-					else empty end
-				]
+					"8.3",
+
+					empty
+				) ]
 			),
 			variants: [
 				"trixie",
