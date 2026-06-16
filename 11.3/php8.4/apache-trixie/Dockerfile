@@ -19,6 +19,7 @@ RUN set -eux; \
 	\
 	apt-get update; \
 	apt-get install -y --no-install-recommends \
+		libavif-dev \
 		libfreetype6-dev \
 		libjpeg-dev \
 		libpng-dev \
@@ -28,6 +29,7 @@ RUN set -eux; \
 	; \
 	\
 	docker-php-ext-configure gd \
+		--with-avif \
 		--with-freetype \
 		--with-jpeg=/usr \
 		--with-webp \

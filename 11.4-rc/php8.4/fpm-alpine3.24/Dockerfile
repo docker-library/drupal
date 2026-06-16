@@ -13,6 +13,7 @@ RUN set -eux; \
 	apk add --no-cache --virtual .build-deps \
 		coreutils \
 		freetype-dev \
+		libavif-dev \
 		libjpeg-turbo-dev \
 		libpng-dev \
 		libwebp-dev \
@@ -22,6 +23,7 @@ RUN set -eux; \
 	; \
 	\
 	docker-php-ext-configure gd \
+		--with-avif \
 		--with-freetype \
 		--with-jpeg=/usr/include \
 		--with-webp \
