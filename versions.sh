@@ -114,7 +114,7 @@ for version in "${versions[@]}"; do
 					# we support up to two PHP versions per Drupal version
 
 					# Drupal 11.3+ supports PHP 8.5
-					if env.version | IN("10.5", "10.6", "11.2") then empty else
+					if env.version | IN("10.6") then empty else
 						"8.5"
 					end,
 
