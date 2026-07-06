@@ -15,9 +15,7 @@ defaultPhpVersion='php8.5'
 declare -A defaultPhpVersions=(
 # releases up to 11.3 will conservatively stay on 8.4 by default
 	[11.3]='php8.4'
-	[11.2]='php8.4'
 	[10.6]='php8.4'
-	[10.5]='php8.4'
 # https://www.drupal.org/docs/system-requirements/php-requirements
 )
 
