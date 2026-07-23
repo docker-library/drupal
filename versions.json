@@ -23,11 +23,11 @@
     }
   },
   "11.3": {
-    "version": "11.3.14",
-    "url": "https://ftp.drupal.org/files/projects/drupal-11.3.14.tar.gz",
-    "md5": "6c4297a09d3d9086414eb79cab130e97",
-    "date": 1784142689,
-    "notes": "https://www.drupal.org/project/drupal/releases/11.3.14",
+    "version": "11.3.16",
+    "url": "https://ftp.drupal.org/files/projects/drupal-11.3.16.tar.gz",
+    "md5": "8c51dfba282a348bd3d6e21024e040d6",
+    "date": 1784769211,
+    "notes": "https://www.drupal.org/project/drupal/releases/11.3.16",
     "phpVersions": [
       "8.5",
       "8.4"
