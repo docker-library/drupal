@@ -1,5 +1,26 @@
 {
-  "11.4-rc": null,
+  "12.0-rc": {
+    "version": "12.0.0-alpha1",
+    "url": "https://ftp.drupal.org/files/projects/drupal-12.0.0-alpha1.tar.gz",
+    "md5": "f3b563801f7c518a1411f46b504f21b1",
+    "date": 1788379574,
+    "notes": "https://www.drupal.org/project/drupal/releases/12.0.0-alpha1",
+    "phpVersions": [
+      "8.5"
+    ],
+    "variants": [
+      "apache-trixie",
+      "fpm-trixie",
+      "apache-bookworm",
+      "fpm-bookworm",
+      "fpm-alpine3.24",
+      "fpm-alpine3.23"
+    ],
+    "composer": {
+      "version": "2"
+    }
+  },
+  "12.0": null,
   "11.4": {
     "version": "11.4.6",
     "url": "https://ftp.drupal.org/files/projects/drupal-11.4.6.tar.gz",
