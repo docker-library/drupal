@@ -22,11 +22,11 @@
   },
   "12.0": null,
   "11.4": {
-    "version": "11.4.9",
-    "url": "https://ftp.drupal.org/files/projects/drupal-11.4.9.tar.gz",
-    "md5": "ed060c76d51555dbafce38c70c24c6af",
-    "date": 1791570758,
-    "notes": "https://www.drupal.org/project/drupal/releases/11.4.9",
+    "version": "11.4.10",
+    "url": "https://ftp.drupal.org/files/projects/drupal-11.4.10.tar.gz",
+    "md5": "51b9c4254fff98d991fedfab84d1834f",
+    "date": 1791994585,
+    "notes": "https://www.drupal.org/project/drupal/releases/11.4.10",
     "phpVersions": [
       "8.5",
       "8.4"
@@ -44,11 +44,11 @@
     }
   },
   "11.3": {
-    "version": "11.3.18",
-    "url": "https://ftp.drupal.org/files/projects/drupal-11.3.18.tar.gz",
-    "md5": "42cc27b929891c90c9866e395b4cdcda",
-    "date": 1790597741,
-    "notes": "https://www.drupal.org/project/drupal/releases/11.3.18",
+    "version": "11.3.19",
+    "url": "https://ftp.drupal.org/files/projects/drupal-11.3.19.tar.gz",
+    "md5": "50fa8c78ccda65f405c309fa8a9f5a25",
+    "date": 1791997826,
+    "notes": "https://www.drupal.org/project/drupal/releases/11.3.19",
     "phpVersions": [
       "8.5",
       "8.4"
@@ -66,11 +66,11 @@
     }
   },
   "10.6": {
-    "version": "10.6.18",
-    "url": "https://ftp.drupal.org/files/projects/drupal-10.6.18.tar.gz",
-    "md5": "6f7bcd0cf62b8edf20983ac3e0d4d0a5",
-    "date": 1790460413,
-    "notes": "https://www.drupal.org/project/drupal/releases/10.6.18",
+    "version": "10.6.19",
+    "url": "https://ftp.drupal.org/files/projects/drupal-10.6.19.tar.gz",
+    "md5": "265396f925713a8bec7785084d1b7be5",
+    "date": 1791996170,
+    "notes": "https://www.drupal.org/project/drupal/releases/10.6.19",
     "phpVersions": [
       "8.4",
       "8.3"
