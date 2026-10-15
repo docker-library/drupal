@@ -1,10 +1,10 @@
 {
   "12.0-rc": {
-    "version": "12.0.0-beta1",
-    "url": "https://ftp.drupal.org/files/projects/drupal-12.0.0-beta1.tar.gz",
-    "md5": "8ed520c98cda72bba0d916e2655724cf",
-    "date": 1790779774,
-    "notes": "https://www.drupal.org/project/drupal/releases/12.0.0-beta1",
+    "version": "12.0.0-beta2",
+    "url": "https://ftp.drupal.org/files/projects/drupal-12.0.0-beta2.tar.gz",
+    "md5": "9ccddc10ddc9c4d937a4bb7b1aa2a85d",
+    "date": 1792015062,
+    "notes": "https://www.drupal.org/project/drupal/releases/12.0.0-beta2",
     "phpVersions": [
       "8.5"
     ],
